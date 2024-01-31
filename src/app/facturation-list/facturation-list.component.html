@@ -1,0 +1,364 @@
+
+  
+  <app-appheader> </app-appheader>
+
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+             
+            <h1> <i class="fas fa-file-invoice mr-1"></i> {{ h1Title }} </h1> 
+          </div>
+          <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+                <!--
+              <li class="breadcrumb-item"><a href="#">Home</a></li>
+              <li class="breadcrumb-item active">Calendar</li>
+               -->
+            </ol>
+          </div>
+        </div>
+      </div><!-- /.container-fluid -->
+    </section>
+
+    <section class="content">
+
+      
+      <!-- Default box -->
+      <div class="card">
+        <div class="card-header">
+
+          <h3 class="card-title">
+              <i class="fas fa-funnel mr-1"></i>
+              Filtrer les affectations
+            </h3>
+
+          <div class="card-tools">
+            <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
+              <i class="fas fa-minus"></i>
+            </button>
+            <button type="button" class="btn btn-tool" title="Remove">
+              <!-- <button type="submit" class="btn btn-success" (click)="createAffectation()"><i class="fas fa-plus"></i> Affectation des missions </button>-->
+            </button>
+          </div>
+        </div>
+
+        <div class="card-body p-0">
+          
+          <div class="row" style="margin:1%;">
+
+            <div class="col-sm-5">
+              <div class="form-group">
+  
+                <label for="filtrer_affectation"> NOM CLIENT / SOURCE </label>
+                <input  (change)="filtrerFacture()" [(ngModel)]="filtrer_affectation" name="filtrer_affectation" type="text" class="form-control" id="filtrer_affectation" placeholder="">
+                
+              </div>
+            </div>
+
+            <div class="col-sm-1">
+              <div class="form-group">
+                <label for="filtrer_affectation_date"> Date </label>
+                <input (change)="filtrerFacture()" [(ngModel)]="filtrer_affectation_date" name="filtrer_affectation_date" type="checkbox" id="filtrer_affectation_date" placeholder="">
+              </div>
+            </div>
+
+            <div class="col-sm-3">
+              <div class="form-group">
+  
+                <label for="filtrer_affectation_du"> DU </label>
+                <input  (change)="filtrerFacture()" [(ngModel)]="filtrer_affectation_du" name="filtrer_affectation_du" type="date" class="form-control" id="filtrer_affectation_du" placeholder="">
+                
+              </div>
+            </div>
+
+            <div class="col-sm-3">
+              <div class="form-group">
+  
+                <label for="filtrer_affectation_au"> AU </label>
+                <input  (change)="filtrerFacture()" [(ngModel)]="filtrer_affectation_au" name="filtrer_affectation_au" type="date" class="form-control" id="filtrer_affectation_au" placeholder="">
+                
+              </div>
+            </div>
+
+          </div>
+          
+          <!--  AFFICHAGE RECAPITULATIF -->
+          <table class="table table-striped projects">
+
+            <thead>
+
+                <tr>
+
+                    <td>
+                      Montant Réglé
+                    </td>
+
+                    <td>
+                      Montant à Régler
+                    </td>
+
+                    <td>
+                      Montant Total
+                    </td>
+                    
+                    <td>
+                      # Réglée(s)
+                    </td>
+
+                    <td>
+                      # Non Réglée(s)
+                    </td>
+
+                </tr>
+
+            </thead>
+
+            <tbody>
+                <!--POUR AFFECTER MISSION NE GERE QUE LES AFFECTATION DONT LE STATUT EST SOIT 0 OU -1 DONC NON TRAITE OU ANNULE -->
+                
+                <tr>
+
+                    <td>
+                        {{ resume_reglee }} €
+                    </td>
+
+                    <td>
+                      {{ resume_non_reglee }} €
+                    </td>
+
+                    <td>
+                        {{ resume_total }} €
+                    </td>
+
+                    <td>
+                      {{ nombreDeFacture }}
+                    </td>
+
+                    <td>
+                      {{ nombreDeFactureNonReglee }}
+                    </td>
+                    
+                </tr>
+            </tbody>
+          </table>
+
+        </div>
+        <!-- /.card-body -->
+      </div>
+      <!-- /.card -->
+  
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+
+      <div class="container-fluid">
+
+        <div class="row">
+         
+          <div class="col-md-12">
+            
+            <div class="card">
+                <div class="card-header">
+      
+                  <h3 class="card-title">
+                      <i class="fas fa-file-invoice mr-1"></i>
+                      Liste des Factures Produites
+                      <button type="button" class="btn btn-tool" title="Remove">
+                        <button type="submit" class="btn btn-success" (click)="facturation()"><i class="fas fa-plus"></i> Facturation</button>
+                      </button>
+                    </h3>
+                
+                  <div class="card-tools">
+                    <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
+                      <i class="fas fa-minus"></i>
+                      
+                    </button>
+                    <select [(ngModel)]="etat" name="etat" (change)="onChangeEtatFacture()"
+                            id="etat" class="form-control select2 select2-danger" data-dropdown-css-class="select2-danger"
+                        style="width: 100%;"
+                      >
+                        <option value="0" [selected]="true"> Factures Non Réglées</option>
+                        <option value="1"> Factures Réglées</option>
+
+                    </select>
+                    
+                  </div>
+                </div>
+                
+                <div class="card-body p-0">
+                  
+                  <!-- DETAILS DDETAIL DU PLANNING -->
+                  
+                  <!--  FACTURES CLIENTS -->
+
+                  <form [formGroup]="assignForm" class="form" *ngIf="administration == 1">
+
+                    <table  class="table table-striped projects">
+
+                        <thead>
+        
+                            <tr>
+                            
+                                <td>
+                                  Date de Facturation
+                                </td>
+                                
+                                <td>
+                                  Numéro Facture
+                                </td>
+        
+                                <td>
+                                  Libellé
+                                </td>
+                                
+                                <td>
+                                  Montant 
+                                </td>
+        
+                                <td>
+            
+                                </td>
+        
+                            </tr>
+        
+                        </thead>
+        
+                        <tbody>
+        
+                            <tr *ngFor="let facture of factures" >
+        
+                                  <td *ngIf=" etat == facture.etat" >
+                                      Le {{ facture.date_facturation | date : 'dd/MM/yyyy' }} 
+                                  </td>
+                                  
+                                  <td *ngIf=" etat == facture.etat">
+                                    {{ facture.numero_facture | uppercase }} 
+                                  </td>
+
+                                  <td *ngIf=" etat == facture.etat" >
+                                      {{ facture.libelle | uppercase }} 
+                                  </td>
+
+                                  <td *ngIf=" etat == facture.etat" >
+                                      {{ facture.montant }} €
+                                  </td >
+  
+                                  <td class="project-actions text-right" *ngIf =" etat == facture.etat">
+                                      
+                                     <!-- <i class="fa fa-download" aria-hidden="true"></i> -->
+                                      <button type="button" class="btn btn-primary btn-xm" (click)="imprimer(facture)">  <i class="fas fa-file-pdf"> </i></button>
+                                      
+                                      <button *ngIf=" facture.etat == 0 " type="button" class="btn btn-success btn-xm" (click)="regler(facture, 1)">  <i class="fas fa-check"> </i></button>
+
+                                      <button *ngIf=" facture.etat == 1 " type="button" class="btn btn-danger btn-xm" (click)="regler(facture, 0)">  <i class="fas fa-ban"> </i></button>
+                                      
+                                      <button *ngIf=" facture.etat == 0 " type="button" class="btn btn-danger btn-xm" (click)="edit(facture)">  <i class="fas fa-edit"> </i></button>
+                                      
+                                      <button  type="button" class="btn btn-secondary btn-xm" (click)="annulerFacturation(facture.id_facturation)" >  <i class="fas fa-times"> </i></button>
+                          
+                                  </td>
+                                  
+                                
+                            </tr>
+
+                        </tbody>
+
+                    </table>
+
+                  </form>
+                  
+                  <form [formGroup]="assignForm" class="form" *ngIf=" administration == 0">
+
+                    <table  class="table table-striped projects">
+                        <thead>
+        
+                            <tr>
+                            
+                                <td>
+                                  Date de Facturation
+                                </td>
+                                
+                                <td>
+                                  Numéro Facture
+                                </td>
+        
+                                <td>
+                                  Libellé
+                                </td>
+                                
+                                <td>
+                                  Montant 
+                                </td>
+        
+                                <td>
+            
+                                </td>
+        
+                            </tr>
+        
+                        </thead>
+        
+                        <tbody>
+        
+                            <tr *ngFor="let facture of factures" >
+        
+                                  <td *ngIf=" etat == facture.etat" >
+                                      Le {{ facture.date_facturation | date : 'dd/MM/yyyy' }} 
+                                  </td>
+                                  
+                                  <td *ngIf=" etat == facture.etat">
+                                    {{ facture.numero_facture | uppercase }} 
+                                  </td>
+
+                                  <td *ngIf=" etat == facture.etat" >
+                                      {{ facture.libelle | uppercase }} 
+                                  </td>
+
+                                  <td *ngIf=" etat == facture.etat" >
+                                      {{ facture.montant }} €
+                                  </td >
+  
+                                  <td class="project-actions text-right" *ngIf =" etat == facture.etat">
+                                      
+                                     <!-- <i class="fa fa-download" aria-hidden="true"></i> -->
+                                      <button type="button" class="btn btn-primary btn-xm" (click)="imprimer(facture)">  <i class="fas fa-file-pdf"> </i></button>
+                                      
+                                      <button *ngIf=" facture.etat == 0 " type="button" class="btn btn-success btn-xm" (click)="regler(facture, 1)">  <i class="fas fa-check"> </i></button>
+
+                                      <button *ngIf=" facture.etat == 1 " type="button" class="btn btn-danger btn-xm" (click)="regler(facture, 0)">  <i class="fas fa-ban"> </i></button>
+                                      
+                                  </td>
+                                  
+                                
+                            </tr>
+
+                        </tbody>
+
+                    </table>
+
+                  </form>
+
+                </div>
+                <!-- /.card-body -->
+            </div>
+
+          </div>
+          <!-- /.col -->
+        </div>
+        <!-- /.row -->
+
+      </div><!-- /.container-fluid -->
+
+    </section>
+    <!-- /.content -->
+  </div>
+  <!-- /.content-wrapper -->
+<app-appfooter> </app-appfooter>
+
+
+<!-- ./wrapper -->

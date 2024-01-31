@@ -1,0 +1,372 @@
+
+  
+  <app-appheader> </app-appheader>
+
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1><i class="fas fa-file-invoice mr-1"></i> Facturation</h1>
+          </div>
+          <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+                <!--
+              <li class="breadcrumb-item"><a href="#">Home</a></li>
+              <li class="breadcrumb-item active">Calendar</li>
+               -->
+            </ol>
+          </div>
+        </div>
+      </div><!-- /.container-fluid -->
+    </section>
+
+    <section class="content">
+
+      
+      <!-- Default box -->
+      <div class="card">
+        <div class="card-header">
+
+          <h3 class="card-title">
+              <i class="fas fa-funnel mr-1"></i>
+              Filtrer les Clients pour Facturation
+            </h3>
+
+          <div class="card-tools">
+            <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
+              <i class="fas fa-minus"></i>
+            </button>
+            <button type="button" class="btn btn-tool" title="Remove">
+              <!-- <button type="submit" class="btn btn-success" (click)="createAffectation()"><i class="fas fa-plus"></i> Affectation des missions </button>-->
+            </button>
+          </div>
+        </div>
+
+        <div class="card-body p-0">
+          
+          <div class="row" style="margin:1%;">
+
+            <div class="col-sm-5">
+              <div class="form-group">
+  
+                <label for="filtrer_client"> NOM CLIENT / NOM PERSONNEL / SERVICE </label>
+                <input  (change)="filtrerClient()" [(ngModel)]="filtrer_client" name="filtrer_client" type="text" class="form-control" id="filtrer_client" placeholder="">
+                
+              </div>
+            </div>
+
+          </div>
+          
+          <!--  AFFICHAGE RECAPITULATIF -->
+          <table class="table table-striped projects">
+
+            <thead>
+
+                <tr>
+
+                    <td>
+                      Durée Totale
+                    </td>
+
+                    <td>
+                      Montant Options 
+                    </td>
+
+                    <td>
+                      Montant facturé
+                    </td>
+
+                    <td>
+                      Montant Total
+                    </td>
+
+                    <td>
+                      Montant Commission
+                    </td>
+
+                    <td>
+                      Montant Marge
+                    </td>
+
+                    <td>
+                      # Mission
+                    </td>
+
+                </tr>
+
+            </thead>
+
+            <tbody>
+                <!--POUR AFFECTER MISSION NE GERE QUE LES AFFECTATION DONT LE STATUT EST SOIT 0 OU -1 DONC NON TRAITE OU ANNULE -->
+                
+                <tr>
+
+                    <td>
+                        {{ resume_duree }} h
+                    </td>
+
+                    <td>
+                      {{ resume_montant_option }} €
+                    </td>
+
+                    <td>
+                        {{ resume_montant }} €
+                    </td>
+
+                    <td>
+                      {{ resume_total_facture }} €
+                    </td>
+
+                    <td>
+                      {{ resume_commisions	 }} €
+                    </td>
+
+                    <td>
+                      {{ resume_marge	 }} €
+                    </td>
+                    
+                    <td>
+                      {{ nombreDeMission	}} 
+                    </td>
+
+                </tr>
+            </tbody>
+          </table>
+
+        </div>
+        <!-- /.card-body -->
+      </div>
+      <!-- /.card -->
+  
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+
+      <div class="container-fluid">
+
+        <div class="row">
+          <div class="col-md-12">
+            <div class="sticky-top mb-3">
+              <div class="card">
+                <div class="card-header">
+
+                    <h3 class="card-title">
+                        <i class="fas fa-list mr-1"></i>
+                        Facturation Périodique 
+                    </h3>
+        
+                    <div class="card-tools">
+                      <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
+                        <i class="fas fa-minus"></i>
+                      </button>
+                      <button type="button" class="btn btn-tool" title="Remove">
+                        <button type="submit" class="btn btn-success" (click)="listeDesFacturesProduites()"><i class="fas fa-plus"></i> Factures </button>
+                      </button>
+                    </div>
+                  </div>
+                <div class="card-body">
+
+                    <form [formGroup]="facturationForm" class="form">
+
+                        <div class="row">
+
+                            <div class="col-md-6">
+
+                                <div class="form-group">
+
+                                    <label>Client <i class="fa fa-angle-down"> </i></label>
+                                    <select  (change)="onClientChange()" [(ngModel)]="id_client" name="id_client" formControlName="id_client" class="form-control select2 select2-danger" data-dropdown-css-class="select2-danger" style="width: 100%;"
+                                    [ngClass] = "{
+                                    'is-invalid': facturationForm.controls['id_client'].errors && facturationForm.controls['id_client'].touched,
+                                    'is-valid': !facturationForm.controls['id_client'].errors
+                                    }">
+                                        <option *ngFor="let client of clients" value="{{ client.id_client }} "> {{ client.nom_client | uppercase }}</option>
+                                    </select>
+                                    <div class="alert alert-danger" *ngIf="facturationForm.controls['id_client'].errors && facturationForm.controls['id_client'].touched ">
+                                    <span *ngIf="facturationForm.controls['id_client'].errors?.['required']"> Bien vouloir choisir un client</span>
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                            <div class="col-sm-2">
+    
+                                <div class="form-group">
+
+                                    <label for="date_du">Du</label>
+                                    <input [(ngModel)]="date_du" name="date_du" formControlName="date_du" type="date" class="form-control" id="date_du" placeholder="">
+                                    
+                                </div>
+
+                            </div>
+                            
+                            <div class="col-sm-2">
+
+                                <div class="form-group">
+
+                                    <label for="date_au">Au</label>
+                                    <input [(ngModel)]="date_au" name="date_au	" formControlName="date_au" type="date" class="form-control" id="date_au" placeholder="">
+                                    
+                                </div>
+
+                            </div>
+
+                            <div class="col-sm-2">
+
+                                <div class="form-group">
+
+                                    <label for="date_facturation">Date Facturation</label>
+                                    <input [(ngModel)]="date_facturation" name="date_facturation" formControlName="date_facturation" type="date" class="form-control" id="date_facturation" placeholder="">
+                                    
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                        <div class="row">
+                            <div class="col-sm-12"> 
+                                <div class="card-footer" style="text-align: right;">
+                                <button (click)="filtrerAffectation(facturationForm.value)" type="submit" [disabled]="!facturationForm.valid" class="btn btn-primary" ><i class="fas fa-plus"></i> {{ titreButton }} </button>
+                                </div>
+                            </div>
+                        </div>
+
+                    </form>
+
+                </div>
+                <!-- /.card-body -->
+              </div>
+              
+            </div>
+          </div>
+          <!-- /.col -->
+          <div class="col-md-12">
+            
+            <div class="card">
+                <div class="card-header">
+      
+                  <h3 class="card-title">
+                      <i class="fas fa-list mr-1"></i>
+                      Liste des missions a facturer
+                    </h3>
+      
+                  <div class="card-tools">
+                    <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
+                      <i class="fas fa-minus"></i>
+                    </button>
+                    <button type="button" class="btn btn-tool" title="Remove">
+                      <!-- <button type="submit" class="btn btn-success" (click)="createAffectation()"><i class="fas fa-plus"></i> Affectation des missions </button>-->
+                    </button>
+                  </div>
+                </div>
+      
+                <div class="card-body p-0">
+                  
+                  <!--  FACTURATION DES CLIENTS -->
+
+                  <form [formGroup]="facturationForm" class="form">
+
+                    <table  class="table table-striped projects">
+                        <thead>
+        
+                            <tr>
+                            
+                                <td>
+                                  Date d'intervention
+                                </td>
+                                
+                                <td>
+                                  Personnel
+                                </td>
+        
+                                <td>
+                                  Durée
+                                </td>
+                                
+                                <td>
+                                  Tarifs Horaire 
+                                </td>
+                                
+                                <td>
+                                  Options 
+                                </td>
+
+                                <td>
+                                  Montant 
+                                </td>
+        
+                                <td>
+                                  Commision 
+                                </td>
+        
+                            </tr>
+        
+                        </thead>
+        
+                        <tbody>
+        
+                            <tr *ngFor="let affectation of affectations">
+        
+                                  <td>
+                                      Le {{ affectation.date_mission | date : 'dd/MM/yyyy' }} à {{ affectation.heure_mission }} 
+                                  </td>
+                                
+                                  <td>
+                                      {{ affectation.nom_utilisateur | uppercase }} {{ affectation.prenom_utilisateur | uppercase }}
+                                  </td>
+          
+                                  <td>
+                                      {{ affectation.duree }} h
+                                  </td>
+                                  
+                                  <td>
+                                      {{ affectation.tarif_horaire_client }} €
+                                  </td >
+                                  
+                                  <td>
+                                    {{ affectation.montant_option }} €
+                                  </td >
+
+                                  <td>
+                                      {{ affectation.total_facture }} €
+                                  </td>
+                                  
+                                  <td>
+                                      {{ affectation.commisions }} €
+                                  </td>
+                                
+                            </tr>
+                        </tbody>
+
+                    </table>
+
+                    <div class="card-footer" style="text-align: right;">
+                        <button *ngIf="factureExist"  (click)="facturer()" type="submit" [disabled]="!facturationForm.valid" class="btn btn-primary" ><i class="fas fa-file-invoice"></i> Facturer </button>
+                    </div>
+                  </form>
+     
+                </div>
+                <!-- /.card-body -->
+            </div>
+
+          </div>
+          <!-- /.col -->
+        </div>
+        <!-- /.row -->
+
+      </div><!-- /.container-fluid -->
+
+    </section>
+    <!-- /.content -->
+  </div>
+  <!-- /.content-wrapper -->
+<app-appfooter> </app-appfooter>
+
+
+<!-- ./wrapper -->

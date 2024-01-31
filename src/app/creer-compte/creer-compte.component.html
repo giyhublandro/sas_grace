@@ -1,0 +1,177 @@
+
+<div class="hold-transition register-page">
+
+    <div class="register-box">
+    <div class="register-logo">
+        <a href="/"><b> {{nom}} </b></a>
+    </div>
+
+    <div class="card">
+        <div class="card-body register-card-body">
+        
+        <form [formGroup]="clientForm" class="form">
+
+            <div class="form-group">
+                <select [(ngModel)]="type_client" (change)="onChangetype($event)" name="type_client" formControlName="type_client" name="type_client" id="type_client" class="form-control select2 select2-danger" data-dropdown-css-class="select2-danger" style="width: 100%;">
+                    <option disabled="disabled" [selected]="true">Je suis</option>
+                    <option selected="selected" value="Particulier">Un Particulier</option>
+                    <option value="Entreprise">Une Entreprise</option>
+                </select>  
+            </div>
+
+            <div class="input-group mb-3">
+                <input type="text" name="nom_client" formControlName="nom_client" class="form-control" placeholder="{{placeHolderValue}}">
+                <div class="input-group-append">
+                    <div class="input-group-text">
+                    <span class="fas fa-user"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="input-group mb-3">
+                <input name="email_client" formControlName="email_client" type="email_client" class="form-control" placeholder="Email">
+                <div class="input-group-append">
+                    <div class="input-group-text">
+                    <span class="fas fa-envelope"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+
+                <div class="col-sm-8"> 
+                    <div class="form-group">
+                        <label for="ville_client">Ville</label>
+                        <select
+                            class="form-control" 
+                            id="ville_client" 
+                            placeholder="" 
+                            name="ville_client"
+                            formControlName="ville_client"
+                            (change)="onVilleChange($event)"
+                        > 
+                          <option *ngFor="let ville of villes" value="{{ ville.ville_nom}}" selected="selected"> {{ ville.ville_nom }} </option>
+    
+                        </select>
+                    </div>
+                </div>
+
+                <div class="col-sm-4"> 
+                    <div class="form-group">
+                        <label for="code_postal">Code Postal</label>
+                        <select
+                            class="form-control" 
+                            id="code_postal" 
+                            placeholder="" 
+                            name="code_postal"
+                            formControlName="code_postal"
+                        > 
+                          <option *ngFor="let code_postal of code_postaux" value="{{code_postal.ville_code_postal}}" selected="selected"> {{ code_postal.ville_code_postal }} </option>
+    
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <input name="adresse_client" type="text" class="form-control" id="adresse_client" placeholder="Adresse" formControlName="adresse_client">
+                </div>
+
+            </div>
+
+            <div class="row">
+
+                <div class="col-sm-6">
+                    <div class="input-group mb-3">
+                        <input name="telephone_1" formControlName="telephone_1" type="telephone_1" class="form-control" placeholder="Téléphone">
+                        <div class="input-group-append">
+                            <div class="input-group-text">
+                            <span class="fas fa-phone"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-sm-6">
+
+                    <div class="form-group">
+
+                        <!-- <label for="frequence_client">Fréquence  </label> <i class="fa fa-angle-down">  </i> -->
+                        <select name="frequence_client" formControlName="frequence_client" name="frequence_client" id="frequence_client" class="form-control select2 select2-danger" data-dropdown-css-class="select2-danger" style="width: 100%;"
+                        [ngClass] = "{
+                        'is-invalid': clientForm.controls['frequence_client'].errors && clientForm.controls['frequence_client'].touched,
+                        'is-valid': !clientForm.controls['frequence_client'].errors
+                        }">
+                          
+                          <option disabled="disabled" [selected]="true">Fréquence</option>
+                          <option selected="selected" value=1>Ponctuel</option>
+                          <option selected="selected" value=2>Régulier</option>
+                          
+                        </select>  
+        
+                    </div>
+                </div>
+
+            </div>
+            
+            <div class="form-group">                 
+                <input name="commentaire" formControlName="commentaire" type="text" class="form-control" id="commentaire" placeholder="Autres précisions d'accès">
+            </div>
+
+            <div class="row">
+
+                <div class="col-sm-6">
+                    <div class="input-group mb-3">
+                        <input name="mot_de_passe" formControlName="mot_de_passe" type="password" class="form-control" placeholder="Mot de passe">
+                        <div class="input-group-append">
+                            <div class="input-group-text">
+                            
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-sm-6">
+                    <div class="input-group mb-3">
+                        <input name="confirmer_mot_de_passe" formControlName="confirmer_mot_de_passe" type="password" class="form-control" placeholder="Confirmer">
+                        <div class="input-group-append">
+                            <div class="input-group-text">
+                            <span class="fas fa-lock"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- -->
+
+            <!-- -->
+            <div class="row">
+                <div class="col-8">
+                    <div class="icheck-primary">
+                    <input name="terms" formControlName="terms" type="checkbox" id="agreeTerms" name="terms" value="agree">
+                    <label for="agreeTerms">
+                    J'accepte les  <a href="#">conditions</a>
+                    </label>
+                    </div>
+                </div>
+                <!-- /.col -->
+                <div class="col-4">
+                    <!-- [disabled]="!clientForm.valid" -->
+                    <button (click)="creerCompte(clientForm.value)" type="submit" class="btn btn-primary btn-block" >
+                         Suivant <i class="fas fa-arrow-right"></i>
+                    </button>
+
+                </div>
+                <!-- /.col -->
+            </div>
+        </form>
+
+        <a href="/" class="text-center">J'ai déjà un compte</a>
+        </div>
+        <!-- /.form-box -->
+    </div><!-- /.card -->
+    </div>
+    <!-- /.register-box -->
+
+</div>

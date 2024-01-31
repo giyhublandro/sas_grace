@@ -1,0 +1,195 @@
+<!-- Content Wrapper. Contains page content -->
+
+<app-appheader> </app-appheader>
+    
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+
+    <div class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1 class="m-0"><i class="fas fa-lock mr-1"> </i>Profils</h1>
+          </div><!-- /.col -->
+          <!--
+          <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+              <li class="breadcrumb-item"><a href="#">Home</a></li>
+              <li class="breadcrumb-item active">Dashboard v1</li>
+            </ol>
+          </div>
+          -->
+          <!-- /.col -->
+        </div><!-- /.row -->
+      </div><!-- /.container-fluid -->
+    </div>
+    <!-- /.content-header -->
+    
+    <!-- Main content -->
+    <section class="content">
+      <div class="container-fluid">
+        <!-- Small boxes (Stat box) -->
+       
+        <div class="row">
+          <!-- Left col -->
+          <section class="col-lg-12 connectedSortable">
+            <!-- Custom tabs (Charts with tabs)-->
+            <div class="card">
+              <div class="card-header">
+                <h3 class="card-title">
+                  <i class="fas fa-plus mr-1"></i>
+                  Création de profil
+                </h3>
+
+                <h3 style="text-align: right;">
+                <button type="submit" class="btn btn-success" (click)="ListeProfil()"><i class="fas fa-list mr-1"></i> Liste des profils </button>
+
+                </h3>
+
+                <div class="card-tools">
+                  <ul class="nav nav-pills ml-auto">
+                    <li class="nav-item">
+                      <!-- <a class="nav-link active" href="#revenue-chart" data-toggle="tab">Area</a> -->
+                    </li>
+                    <li class="nav-item">
+                      <!-- <a class="nav-link" href="#sales-chart" data-toggle="tab">Donut</a> -->
+                    </li>
+                  </ul>
+                </div>
+              </div><!-- /.card-header -->
+              <div class="card-body">
+                <div class="tab-content p-0">
+                  <!-- Morris chart - Sales -->
+                  <div class="chart tab-pane active" id="revenue-chart"
+                       style="position: relative; ">
+                      <div class="row">
+                        <div class="col-lg-12">
+
+                            <form class="form" [formGroup]="profilForm">
+
+                              <input name="id_profile" formControlName="id_profile" class="custom-control-input" type="hidden" id="profile">
+                                       
+                                <div class="row"> 
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label for="nom_profil">Nom du Profil</label>
+                                            <input name="nom_profil" formControlName="nom_profil" type="text" class="form-control form-control-border" id="nom_profil" placeholder="">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+
+                                  
+                                  <div class="col-sm-6">
+                                    
+                                    <div class="form-group">
+
+                                      <div class="custom-control custom-checkbox">
+                                        <input name="administration" formControlName="administration" class="custom-control-input" type="checkbox" id="administration">
+                                        <label for="administration" class="custom-control-label">Administration</label>
+                                      </div>
+
+                                      <div class="custom-control custom-checkbox">
+                                        <input name="agence" formControlName="agence" class="custom-control-input" type="checkbox" id="agence">
+                                        <label for="agence" class="custom-control-label">Gérer les Agences</label>
+                                      </div>
+
+                                        <div class="custom-control custom-checkbox">
+                                          <input name="profil" formControlName="profil" class="custom-control-input" type="checkbox" id="profil">
+                                          <label for="profil" class="custom-control-label">Gérer les Profils</label>
+                                        </div>
+
+                                        <div class="custom-control custom-checkbox">
+                                          <input name="utilisateurs" formControlName="utilisateurs" class="custom-control-input" type="checkbox" id="utilisateurs">
+                                          <label for="utilisateurs" class="custom-control-label">Gérer les Utilisateurs</label>
+                                        </div>
+
+                                        <div class="custom-control custom-checkbox">
+                                          <input name="clients" formControlName="clients" class="custom-control-input" type="checkbox" id="clients">
+                                          <label for="clients" class="custom-control-label">Gérer les Clients</label>
+                                        </div>
+
+                                        <div class="custom-control custom-checkbox">
+                                          <input name="mission" formControlName="mission" class="custom-control-input" type="checkbox" id="mission">
+                                          <label for="mission" class="custom-control-label">Gérer les Services</label>
+                                        </div>
+
+                                        <div class="custom-control custom-checkbox">
+                                          <input name="paiements" formControlName="paiements" class="custom-control-input" type="checkbox" id="paiements">
+                                          <label for="paiements" class="custom-control-label">Gérer les Paiements</label>
+                                        </div>
+
+                                        <div class="custom-control custom-checkbox">
+                                          <input name="mes_missions" formControlName="mes_missions" class="custom-control-input" type="checkbox" id="mes_missions">
+                                          <label for="mes_missions" class="custom-control-label">Mes missions</label>
+                                        </div>
+
+                                        <div class="custom-control custom-checkbox">
+                                          <input name="validations" formControlName="validations" class="custom-control-input" type="checkbox" id="validations">
+                                          <label for="validations" class="custom-control-label">Mes validations</label>
+                                        </div>
+
+                                        <div class="custom-control custom-checkbox">
+                                          <input name="mes_paiements" formControlName="mes_paiements" class="custom-control-input" type="checkbox" id="mes_paiements">
+                                          <label for="mes_paiements" class="custom-control-label">Mes Paiements</label>
+                                        </div>
+
+                                        <div class="custom-control custom-checkbox">
+                                          <input name="mon_planning" formControlName="mon_planning" class="custom-control-input" type="checkbox" id="mon_planning">
+                                          <label for="mon_planning" class="custom-control-label">Mon planning</label>
+                                        </div>
+
+                                        <div class="custom-control custom-checkbox">
+                                          <input name="rapports" formControlName="rapports" class="custom-control-input" type="checkbox" id="rapports">
+                                          <label for="rapports" class="custom-control-label">Reporting</label>
+                                        </div>
+                                        
+                                      </div>
+                                  </div>
+                                
+                                  <div class="col-sm-6">
+
+                                    <div class="form-group">
+
+                                      <div class="custom-control custom-checkbox">
+                                        <input name="contact" formControlName="contact" class="custom-control-input" type="checkbox" id="contact">
+                                        <label for="contact" class="custom-control-label">Voir Contacts</label>
+                                      </div>
+
+                                      <div class="custom-control custom-checkbox">
+                                          <input name="source" formControlName="source" class="custom-control-input" type="checkbox" id="source">
+                                          <label for="source" class="custom-control-label">Gérer Sources </label>
+                                        </div>
+                                      </div>
+
+                                  </div>
+
+                                  <div class="card-footer" style="text-align: right;">
+                                    <button type="submit" class="btn btn-primary" (click)="OnSubmitCreateProfil(profilForm.value)" [disabled]="!profilForm.valid"><i class="fas fa-plus"></i> Créer</button>
+                                  </div>
+
+                                </div>
+              
+                              </form>
+
+
+                        </div>
+                      </div>
+                   </div>
+                  
+                </div>
+              </div><!-- /.card-body -->
+            </div>
+            <!-- /.card -->
+
+          </section>
+
+          
+        </div>
+        <!-- /.row (main row) -->
+      </div><!-- /.container-fluid -->
+    </section>
+    <!-- /.content -->
+  </div>
+  <!-- /.content-wrapper -->

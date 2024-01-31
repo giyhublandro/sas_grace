@@ -1,0 +1,226 @@
+<!-- Content Wrapper. Contains page content -->
+
+<app-appheader> </app-appheader>
+
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+ 
+    
+    <div class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1 class="m-0"><i class="fas fa-user-secret mr-1"> </i>Services</h1>
+          </div><!-- /.col -->
+          <!--
+          <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+              <li class="breadcrumb-item"><a href="#">Home</a></li>
+              <li class="breadcrumb-item active">Dashboard v1</li>
+            </ol>
+          </div>
+          -->
+          <!-- /.col -->
+        </div><!-- /.row -->
+      </div><!-- /.container-fluid -->
+    </div>
+    <!-- /.content-header -->
+
+    <!-- Main content -->
+    <section class="content">
+      <div class="container-fluid">
+        <!-- Small boxes (Stat box) -->
+       
+        <div class="row">
+          <!-- Left col -->
+          <section class="col-lg-12 connectedSortable">
+            <!-- Custom tabs (Charts with tabs)-->
+            <div class="card">
+              <div class="card-header">
+                <h3 class="card-title">
+                    <i class="fas fa-plus mr-1"></i>
+                    Mise à jours des Services
+                  </h3>
+                  <h3 style="text-align: right;">
+                      <button type="submit" class="btn btn-success" (click)="ListeMissions()"><i class="fas fa-list"></i> Liste des Services </button>
+                  </h3>
+                <div class="card-tools">
+                  <ul class="nav nav-pills ml-auto">
+                    <li class="nav-item">
+                      <!-- <a class="nav-link active" href="#revenue-chart" data-toggle="tab">Area</a> -->
+                    </li>
+                    <li class="nav-item">
+                      <!-- <a class="nav-link" href="#sales-chart" data-toggle="tab">Donut</a> -->
+                    </li>
+                  </ul>
+                </div>
+              </div><!-- /.card-header -->
+              <div class="card-body">
+                <div class="tab-content p-0">
+                  <!-- Morris chart - Sales -->
+                  <div class="chart tab-pane active" id="revenue-chart"
+                       style="position: relative; ">
+                      <div class="row">
+                        
+                        <form [formGroup]="missionForm" class="form">
+
+                            <input [(ngModel)]="id_mission" name="id_mission" formControlName="id_mission" class="custom-control-input" type="hidden" id="id_mission">
+                                    
+                            <div class="row">
+
+                                <div class="col-sm-6">
+
+                                    <div class="row">
+
+                                        <div class="col-sm-12">
+
+                                            <div class="form-group">
+                                                
+                                                <!-- <label for="mission">Mission</label> -->
+                                                <input [(ngModel)]="mission" name="mission" formControlName="mission" type="text" class="form-control" id="mission" placeholder="">
+                                                
+                                            </div>
+
+                                        </div>
+
+                                        <div class="col-sm-6">
+                                          <div class="form-group">
+                                                    
+                                            <label for="montant">Montant</label>
+                                            <div class="input-group">
+                                                <input [(ngModel)]="montant" name="montant" formControlName="montant" type="number" class="form-control" id="montant" placeholder="">
+                                                <div class="input-group-append">
+                                                    <button type="button" class="btn btn-primary" disabled="disabled">€ / heure</button>
+                                                </div>
+                                            </div>
+
+                                          </div>
+                                        </div>
+
+                                        <div class="col-sm-12">
+
+                                          <div class="form-group">
+
+                                              <label for="lien">Lien</label>
+                                              <input [(ngModel)]="lien" name="lien" formControlName="lien" type="text" class="form-control" id="lien" placeholder="">
+                                              
+                                          </div>
+
+                                      </div>
+
+                                        <div class="col-sm-12">
+
+                                            <div class="form-group">
+
+                                                <label for="description">Description</label>
+                                                <textarea [(ngModel)]="description" name="description" formControlName="description" type="" class="form-control" id="description" placeholder=""> </textarea>
+                                                
+                                            </div>
+
+                                        </div>
+
+
+                                        <div class="col-sm-6">
+
+                                            <div class="form-group">
+
+                                                <!-- <label for="date_mission">Date d'ntervetion</label> -->
+                                                <input [(ngModel)]="date_mission" name="date_mission" formControlName="date_mission" type="hidden" class="form-control" id="date_mission" placeholder="">
+                                                
+                                            </div>
+
+                                        </div>
+
+                                        <div class="col-sm-6">
+
+                                            <div class="form-group">
+
+                                                <!-- <label for="heure_mission">Heure d'intervetion</label> -->
+                                                <input [(ngModel)]="heure_mission" name="heure_mission" formControlName="heure_mission" type="hidden" class="form-control" id="heure_mission" placeholder="">
+                                                
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+                                    
+                                </div>
+
+                                <div class="col-sm-6">
+
+                                    <div class="row">
+
+                                        <div class="col-sm-6">
+
+                                            <div class="form-group">
+                                                
+                                                <!-- <label for="duree">Durée d'intervetion</label> -->
+                                                <input [(ngModel)]="duree" name="duree" formControlName="duree" type="hidden" class="form-control" id="duree" placeholder="" style="text-align:right">
+
+                                            </div>
+
+                                        </div>
+
+                                        <div class="col-sm-6">
+
+                                            <div class="form-group">
+                                                
+                                                <!-- <label for="frequence">Fréquence</label> -->
+                                                <input [(ngModel)]="frequence" name="frequence" formControlName="frequence" type="hidden" class="form-control" id="frequence" placeholder="">
+                                                
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+                                    <div class="row">                   
+
+              
+                                        <div class="col-sm-6">
+                                            <div class="form-group">
+                                                <!-- <label type="hidden" for="commisions">Commission</label> -->
+                                                <input [(ngModel)]="commisions" name="commisions" type="hidden" class="form-control" id="commisions" placeholder="" formControlName="commisions"
+                                                [ngClass] = "{
+                                                'is-invalid': missionForm.controls['commisions'].errors && missionForm.controls['commisions'].touched,
+                                                'is-valid': !missionForm.controls['commisions'].errors
+                                                }">
+                                                <div class="alert alert-danger" *ngIf="missionForm.controls['commisions'].errors && missionForm.controls['commisions'].touched ">
+                                                <span *ngIf="missionForm.controls['commisions'].errors?.['required']"> Bien vouloir saisir le taux de commisions </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                    </div>
+
+                                </div>
+
+                            </div>
+                                
+                            <div class="row">
+                                <div class="col-sm-12"> 
+                                    <div class="card-footer" style="text-align: right;">
+                                        
+                                    <button (click)="updateMission(missionForm.value)" type="submit" [disabled]="!missionForm.valid" class="btn btn-primary" ><i class="fas fa-plus"></i> {{ titreButton }} </button>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </form>
+
+                      </div>
+                   </div>
+                  
+                </div>
+              </div><!-- /.card-body -->
+            </div>
+            <!-- /.card -->
+
+          </section>
+
+        </div>
+        <!-- /.row (main row) -->
+      </div><!-- /.container-fluid -->
+    </section>
+    <!-- /.content -->
+  </div>
+  <!-- /.content-wrapper -->

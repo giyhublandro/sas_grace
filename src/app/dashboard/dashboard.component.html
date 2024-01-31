@@ -1,0 +1,377 @@
+ <!-- Content Wrapper. Contains page content -->
+ 
+ <app-appheader> </app-appheader>
+ 
+ <div class="content-wrapper">
+
+    <!-- Content Header (Page header) -->
+    <div class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1 class="m-0">Tableau de bord</h1>
+          </div><!-- /.col -->
+          <div class="col-sm-6">
+           
+          </div><!-- /.col -->
+        </div><!-- /.row -->
+      </div><!-- /.container-fluid -->
+    </div>
+    <!-- /.content-header -->
+
+    <!-- Main content -->
+    <section class="content">
+      
+      <div class="container-fluid">
+        <!-- Small boxes (Stat box) -->
+        
+        <!-- /.row -->
+        <!-- Main row -->
+       
+        <div class="row">
+
+           <!-- INDICATEURS CHIFFRES -->
+
+          <div class="col-sm-12">
+
+            <div class="card">
+            
+              <div class="card-header">
+  
+                <h3 class="card-title">
+                  <i class="fa fa-eye mr-1"></i>
+                    INDICATEURS CHIFFRES
+                  </h3>
+              
+                <div class="card-tools">
+                  <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
+                    <i class="fas fa-minus"></i>
+                    
+                  </button>
+                  
+                </div>
+              </div>
+              
+              <div class="card-body p-0">
+                
+                <div class="row" style="margin: 0.5%;">
+  
+                  <div class="col-sm-2 col-6">
+                    <!-- small box -->
+                    <div class="small-box bg-info">
+                      <div class="inner">
+                        <h2> {{ nombreDeProfil }} </h2>
+                        <p>PROFILS</p>
+                      </div>
+                      <div class="icon">
+                        <i class="fa fa-lock mr-1"></i>
+                      </div>
+                      <!-- <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a> -->
+                    </div>
+                  </div>
+        
+                  <div class="col-sm-2 col-6">
+                    <!-- small box -->
+                    <div class="small-box bg-info">
+                      <div class="inner">
+                        <h2> {{ nombreDeUser }} </h2>
+                        <p>UTILISATEURS</p>
+                      </div>
+                      <div class="icon">
+                        <i class="ion ion-person-add"></i>
+                      </div>
+                      <!-- <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a> -->
+                    </div>
+                  </div>
+        
+                  <div class="col-sm-2 col-6">
+                    <!-- small box -->
+                    <div class="small-box bg-info">
+                      <div class="inner">
+                        <h2> {{ nombreDeSource }} </h2>
+                        <p>SOURCES</p>
+                      </div>
+                      <div class="icon">
+                        <i class="fa fa-chevron-right"></i>
+                      </div>
+                      <!-- <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a> -->
+                    </div>
+                  </div>
+        
+                  <div class="col-sm-2 col-6">
+                    <!-- small box -->
+                    <div class="small-box bg-info">
+                      <div class="inner">
+                        <h2> {{ nombreDeClient }} </h2>
+                        <p>CLIENTS</p>
+                      </div>
+                      <div class="icon">
+                        <i class="ion ion-person"></i>
+                      </div>
+                      <!-- <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a> -->
+                    </div>
+                  </div>
+
+                  <div class="col-sm-2 col-6">
+                    <!-- small box -->
+                    <div class="small-box bg-info">
+                      <div class="inner">
+                        <h2> {{ factureReglee }} / {{ nombreDeFacture }} </h2>
+                        <p>FACTURES REGLEES</p>
+                      </div>
+                      <div class="icon">
+                        <i class="fas fa-file-invoice"></i>
+                      </div>
+                      <!-- <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a> -->
+                    </div>
+                  </div>
+
+                  <div class="col-sm-2 col-6">
+                    <!-- small box -->
+                    <div class="small-box bg-info">
+                      <div class="inner">
+                        <h2> {{ factureNonReglee }} / {{ nombreDeFacture }} </h2>
+                        <p>NON REGLEES</p>
+                      </div>
+                      <div class="icon">
+                        <i class="fas fa-file-invoice"></i>
+                      </div>
+                      <!-- <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a> -->
+                    </div>
+                  </div>
+                  
+                  
+                  <!-- ./col -->
+                </div>
+                
+                <div class="row" style="margin: 0.5%;">
+  
+                  <div class="col-sm-2 col-6">
+                    <!-- small box -->
+                    <div class="small-box bg-info">
+                      <div class="inner">
+                        <h2> {{ nonValidee }} / {{ totalDesMissions }}</h2>
+                        <p> NON VALIDEES</p>
+                      </div>
+                      <div class="icon">
+                        <i class="fa fa-tags mr-1"></i>
+                      </div>
+                      <!-- <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a> -->
+                    </div>
+                  </div>
+        
+                  <div class="col-sm-2 col-6">
+                    <!-- small box -->
+                    <div class="small-box bg-info">
+                      <div class="inner">
+                        <h2> {{ validee }} / {{ totalDesMissions }} </h2>
+                        <p>VALIDEES</p>
+                      </div>
+                      <div class="icon">
+                        <i class="fa fa-tags mr-1"></i>
+                      </div>
+                      <!-- <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a> -->
+                    </div>
+                  </div>
+        
+                  <div class="col-sm-2 col-6">
+                    <!-- small box -->
+                    <div class="small-box bg-info">
+                      <div class="inner">
+                        <h2> {{ payees }} / {{ totalDesMissions }} </h2>
+                        <p>PAYEES</p>
+                      </div>
+                      <div class="icon">
+                        <i class="fa fa-tags mr-1"></i>
+                      </div>
+                      <!-- <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a> -->
+                    </div>
+                  </div>
+        
+                  <div class="col-sm-2 col-6">
+                    <!-- small box -->
+                    <div class="small-box bg-info">
+                      <div class="inner">
+                        <h2> {{ nonPayee }} / {{ totalDesMissions }} </h2>
+                        <p>NON PAYEES</p>
+                      </div>
+                      <div class="icon">
+                        <i class="fa fa-tags mr-1"></i>
+                      </div>
+                      <!-- <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a> -->
+                    </div>
+                  </div>
+
+                  <div class="col-sm-2 col-6">
+                    <!-- small box -->
+                    <div class="small-box bg-info">
+                      <div class="inner">
+                        <h2> {{ this.aPayer }} </h2>
+                        <p>ATTENTE PAIEMENT </p>
+                      </div>
+                      <div class="icon">
+                        <i class="fas fa-euro-sign"></i>
+                      </div>
+                      <!-- <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a> -->
+                    </div>
+                  </div>
+
+                  <div class="col-sm-2 col-6">
+                    <!-- small box -->
+                    <div class="small-box bg-info">
+                      <div class="inner">
+                        <h2> {{ annulees }} </h2>
+                        <p>ANNULLEES</p>
+                      </div>
+                      <div class="icon">
+                        <i class="fa fa-tags mr-1"></i>
+                      </div>
+                      <!-- <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a> -->
+                    </div>
+                  </div>
+                  
+                  
+                  <!-- ./col -->
+                </div>
+
+                <div class="row" style="margin: 0.5%;">
+  
+                  <div class="col-sm-3 col-6">
+                    <!-- small box -->
+                    <div class="small-box bg-danger">
+                      <div class="inner">
+                        <h2> {{ totalFactureNonReglee }} </h2>
+                        <p>MONTANT FACTURES NON REGLEES</p>
+                      </div>
+                      <div class="icon">
+                        <i class="fas fa-euro-sign"></i>
+                      </div>
+                      <!-- <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a> -->
+                    </div>
+                  </div>
+        
+                  <div class="col-sm-3 col-6">
+                    <!-- small box -->
+                    <div class="small-box bg-secondary">
+                      <div class="inner">
+                        <h2> {{ totalFactureReglee }} </h2>
+                        <p>MONTANT FACTURES REGLEES</p>
+                      </div>
+                      <div class="icon">
+                        <i class="fas fa-euro-sign"></i>
+                      </div>
+                      <!-- <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a> -->
+                    </div>
+                  </div>
+        
+                  <div class="col-sm-3 col-6">
+                    <!-- small box -->
+                    <div class="small-box bg-success" >
+                      <div class="inner">
+                        <h2> {{ paiements }} </h2>
+                        <p>LES PAIEMENTS</p>
+                      </div>
+                      <div class="icon">
+                        <i class="fas fa-euro-sign"></i>
+                      </div>
+                      <!-- <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a> -->
+                    </div>
+                  </div>
+        
+                  <div class="col-sm-3 col-6">
+                    <!-- small box -->
+                    <div class="small-box bg-success" [ngClass]="{'bg-danger': totalBalance <= 0}">
+                      <div class="inner">
+                        <h2> {{ totalBalance }} </h2>
+                        <p>BALANCE</p>
+                      </div>
+                      <div class="icon">
+                        <i class="fas fa-euro-sign"></i>
+                      </div>
+                      <!-- <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a> -->
+                    </div>
+                  </div>
+                
+                </div>
+
+                <div class="row" style="margin: 0.5%;">
+  
+                  <div class="col-sm-3 col-6">
+                    <!-- small box -->
+                    <div class="small-box bg-danger">
+                      <div class="inner">
+                        <h2> {{ totalCA }} </h2>
+                        <p>CHIFFRES D'AFFAIRES</p>
+                      </div>
+                      <div class="icon">
+                        <i class="fas fa-euro-sign"></i>
+                      </div>
+                      <!-- <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a> -->
+                    </div>
+                  </div>
+        
+                
+                </div>
+  
+              </div>
+              <!-- /.card-body -->
+            </div>
+
+          </div>
+         
+          <!-- GRAPHS -->
+          <div class="col-sm-12">
+
+            <div class="card">
+              <div class="card-header">
+  
+                <h3 class="card-title">
+                    <i class="fa fa-expand mr-1"></i>
+                    INDICATEURS GRAPHIQUES
+                  </h3>
+              
+                <div class="card-tools">
+                  <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
+                    <i class="fas fa-minus"></i>
+                    
+                  </button>
+                  
+                </div>
+              </div>
+              
+              <div class="card-body p-0">
+                
+                <app-pie-chart></app-pie-chart>
+  
+              </div>
+              <!-- /.card-body -->
+            </div>
+            
+          </div>
+
+        </div>
+
+        
+        <!-- /.row (main row) -->
+      </div><!-- /.container-fluid -->
+    </section>
+
+  
+    <!-- /.content -->
+  </div>
+
+  <app-appfooter> </app-appfooter>
+  <!-- /.content-wrapper -->
+  
+  <!--
+    //Type one
+    [class.my_class] = "step === 'step1'"
+
+    //Type two
+    [ngClass]="{'my_class': step === 'step1'}"
+    and multiple option:
+    [ngClass]="{'my_class': step === 'step1', 'my_class2' : step === 'step2' }"
+
+    //Type three
+    [ngClass]="{1 : 'my_class1', 2 : 'my_class2', 3 : 'my_class4'}[step]"
+  -->

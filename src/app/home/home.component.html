@@ -1,0 +1,177 @@
+
+<div class="row" style="background-color: blue !;" >
+
+  <div class="col-12 col-md-12">
+    <nav class="navbar navbar-expand navbar-primary navbar-dark">
+      <!-- Left navbar links -->
+      <ul class="navbar-nav mr-auto">
+        
+        <!-- Notifications Dropdown Menu <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a> -->
+        <li class="nav-item dropdown">
+          <a class="nav-link" data-toggle="dropdown" href="#">
+            <i class="fas fa-bars"></i>
+          </a>
+          <div class="dropdown-menu dropdown-menu-lg dropdown-menu-left">
+            <a href="#" class="dropdown-item">
+              <i class="fas fa-arrow ml-2"></i> A PROPOS
+            </a>
+            <div class="dropdown-divider"></div>
+            <a href="#" routerLink="/reservation" class="dropdown-item">
+              <i class="fas fa-arrow ml-2"></i> RESERVER
+            </a>
+            <div class="dropdown-divider"></div>
+          </div>
+        </li>
+
+        <li class="nav-item d-none d-sm-inline-block">
+          <a href="#" class="nav-link">A PROPOS</a>
+        </li>
+        <li class="nav-item d-none d-sm-inline-block">
+          <a href="#" routerLink="/reservation" class="nav-link">RESERVER</a>
+        </li>
+
+      </ul>
+
+    <ul>
+      <!-- 
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
+        </li>
+        <li class="nav-item d-none d-sm-inline-block">
+          <a href="../../index3.html" class="nav-link">Home</a>
+        </li>
+        <li class="nav-item d-none d-sm-inline-block">
+          <a href="#" class="nav-link">Contact</a>
+        </li>
+      </ul>
+      -->
+    </ul>
+  
+      <!-- Right navbar links -->
+      <ul class="navbar-nav ml-auto">
+        
+        <!-- Messages Dropdown Menu -->
+        
+        <li class="nav-item dropdown">
+          <a class="nav-link" data-toggle="dropdown" href="#">
+            CONTACT <span class="badge badge-danger navbar-badge">  </span>
+          </a>
+        </li>
+      
+
+        <!-- Notifications Dropdown Menu <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a> -->
+
+        
+        <li class="nav-item dropdown">
+          <a class="nav-link" data-toggle="dropdown" href="#">
+            <i class="fas fa-bars"></i>
+          </a>
+          <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+            <span class="dropdown-item dropdown-header">15 Notifications</span>
+            <div class="dropdown-divider"></div>
+            <a href="#" class="dropdown-item">
+              <i class="fas fa-envelope mr-2"></i> 4 new messages
+              <span class="float-right text-muted text-sm">3 mins</span>
+            </a>
+            <div class="dropdown-divider"></div>
+            <a href="#" class="dropdown-item">
+              <i class="fas fa-envelope mr-2"></i> 4 new messages
+              <span class="float-right text-muted text-sm">3 mins</span>
+            </a>
+            <div class="dropdown-divider"></div>
+          </div>
+        </li>
+
+        <li class="nav-item">
+          <!-- <a class="nav-link" data-widget="control-sidebar" data-slide="true" href="#" role="button"> -->
+          <a class="nav-link"  href="#" role="button">
+            <i class="fab fa-facebook-f"></i>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" data-slide="true" href="#" role="button">
+            <i class="fab fa-youtube"></i>
+          </a>
+        </li>
+
+      </ul>
+    </nav>
+  
+    
+  </div>
+
+</div>
+
+<div class="row">
+  <div class="col-md-12">
+    <div class="hold-transition login-page">
+      <div class="login-box">
+        <!-- /.login-logo -->
+        <div class="card card-outline card-primary">
+          <div class="card-header text-center">
+            <a href="/" class="h1"><b> {{ nom  }} </b> </a>
+          </div>
+          <div class="card-body">
+            <p class="login-box-msg">
+              <img class="animation__shake" src="./../assets/dist/img/logo.jpg" alt="LOGO GET" height="120" width="220" style="text-align: center;">
+               <br> Se connecter
+            </p>
+      
+            <form class="form" [formGroup]="loginForm">
+              <div class="input-group mb-3">
+                <input type="email" class="form-control" placeholder="email" name="email_utilisateur" formControlName="email_utilisateur">
+                <div class="input-group-append">
+                  <div class="input-group-text">
+                    <span class="fas fa-user"></span>
+                  </div>
+                </div>
+              </div>
+              <div class="input-group mb-3">
+                <input type="password" class="form-control" placeholder="mot de passe" name="mot_de_passe_utilisateur" formControlName="mot_de_passe_utilisateur">
+                <div class="input-group-append">
+                  <div class="input-group-text">
+                    <span class="fas fa-lock"></span>
+                  </div>
+                </div>
+              </div>
+  
+              <div class="row">
+                <div class="col-7">
+                  <div class="icheck-primary">
+                    <!-- 
+                    <input type="checkbox" id="remember">
+                    <label for="remember">
+                      Se souvenir
+                    </label>
+                    -->
+                  </div>
+                </div>
+                <!-- /.col -->
+                <div class="col-5">
+                  <button type="submit" [disabled]="!loginForm.valid" (click)="onLogIn()"class="btn btn-primary btn-block">Connexion</button>
+                </div>
+                <!-- /.col -->
+              </div>
+            </form>
+            
+            <div class="row">
+              <div class="col-sm-12">
+                <p class="mb-1">
+                  <a href="#" routerLink="/forgot-password">Mot de passe oublié </a>
+                </p>
+              </div>
+            </div>
+            
+            
+          </div>
+          <!-- /.card-body -->
+        </div>
+        <!-- /.card -->
+      </div>
+  
+  <div>
+  </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,366 @@
+<!-- Content Wrapper. Contains page content -->
+
+<app-appheader> </app-appheader>
+
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+ 
+    
+    <div class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1 class="m-0"><i class="fas fa-euro-sign"> </i> PAIEMENTS </h1>
+          </div><!-- /.col -->
+          <!--
+          <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+              <li class="breadcrumb-item"><a href="#">Home</a></li>
+              <li class="breadcrumb-item active">Dashboard v1</li>
+            </ol>
+          </div>
+          -->
+          <!-- /.col -->
+        </div><!-- /.row -->
+      </div><!-- /.container-fluid -->
+    </div>
+   
+    <section class="content">
+
+      <!-- Default box -->
+      <div class="card">
+        <div class="card-header">
+
+          <h3 class="card-title">
+              <i class="fas fa-funnel mr-1"></i>
+              Filtrer les Paiements
+            </h3>
+
+          <div class="card-tools">
+            <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
+              <i class="fas fa-minus"></i>
+            </button>
+            <button type="button" class="btn btn-tool" title="Remove">
+              <!-- <button type="submit" class="btn btn-success" (click)="createAffectation()"><i class="fas fa-plus"></i> Affectation des missions </button>-->
+            </button>
+          </div>
+        </div>
+
+        <div class="card-body p-0">
+          
+          <div class="row" style="margin:1%;">
+
+            <div class="col-sm-4">
+              <div class="form-group">
+  
+                <label for="filtrer_affectation"> NOM CLIENT / NOM PERSONNEL / SERVICE</label>
+                <input  (change)="filtrerAffectation()" [(ngModel)]="filtrer_affectation" name="filtrer_affectation" type="text" class="form-control" id="filtrer_affectation" placeholder="">
+                
+              </div>
+            </div>
+
+            <div class="col-sm-3">
+              <div class="form-group">
+  
+                <label for="filtrer_affectation_source"> SOURCE </label>
+                <input  (change)="afficherSource()" [(ngModel)]="filtrer_affectation_source_filtre" name="filtrer_affectation_source_filtre" type="checkbox" id="filtrer_affectation_source_filtre" placeholder="">
+                <select *ngIf="filtrer_affectation_source_filtre" (change)="filtrerAffectation()" [(ngModel)]="filtrer_affectation_source" name="filtrer_affectation_source" id="filtrer_affectation_source" class="form-control select2 select2-danger" data-dropdown-css-class="select2-danger" style="width: 100%;">
+                  <option *ngFor="let source of sources" value="{{ source.id_source }} "> {{ source.source}}</option>
+                </select>  
+              </div>
+            </div>
+
+            <div class="col-sm-1">
+              <div class="form-group">
+                <label for="filtrer_affectation_date"> Date </label>
+                <input (change)="filtrerAffectation()" [(ngModel)]="filtrer_affectation_date" name="filtrer_affectation_date" type="checkbox" id="filtrer_affectation_date" placeholder="">
+              </div>
+            </div>
+
+            <div class="col-sm-2">
+              <div class="form-group">
+  
+                <label for="filtrer_affectation_du"> DU </label>
+                <input  (change)="filtrerAffectation()" [(ngModel)]="filtrer_affectation_du" name="filtrer_affectation_du" type="date" class="form-control" id="filtrer_affectation_du" placeholder="">
+                
+              </div>
+            </div>
+
+            <div class="col-sm-2">
+              <div class="form-group">
+  
+                <label for="filtrer_affectation_au"> AU </label>
+                <input  (change)="filtrerAffectation()" [(ngModel)]="filtrer_affectation_au" name="filtrer_affectation_au" type="date" class="form-control" id="filtrer_affectation_au" placeholder="">
+                
+              </div>
+            </div>
+
+          </div>
+          
+          <!--  AFFICHAGE RECAPITULATIF -->
+          <table class="table table-striped projects">
+
+            <thead>
+
+                <tr>
+
+                    <td>
+                      Durée Totale
+                    </td>
+
+                    <td>
+                      Montant Options 
+                    </td>
+
+                    <td>
+                      Montant facturé
+                    </td>
+
+                    <td>
+                      Montant Total
+                    </td>
+
+                    <td>
+                      Montant Commission
+                    </td>
+
+                    <td>
+                      Montant Marge
+                    </td>
+
+                    <td>
+                      # Mission
+                    </td>
+
+                </tr>
+
+            </thead>
+
+            <tbody>
+                <!--POUR AFFECTER MISSION NE GERE QUE LES AFFECTATION DONT LE STATUT EST SOIT 0 OU -1 DONC NON TRAITE OU ANNULE -->
+                
+                <tr>
+
+                    <td>
+                        {{ resume_duree }} h
+                    </td>
+
+                    <td>
+                      {{ resume_montant_option }} €
+                    </td>
+
+                    <td>
+                        {{ resume_montant }} €
+                    </td>
+
+                    <td>
+                      {{ resume_total_facture }} €
+                    </td>
+
+                    <td>
+                      {{ resume_commisions	 }} €
+                    </td>
+
+                    <td>
+                      {{ resume_marge	 }} €
+                    </td>
+
+                    <td>
+                      {{ nombreDeMission	 }}
+                    </td>
+                    
+                </tr>
+            </tbody>
+          </table>
+
+        </div>
+        <!-- /.card-body -->
+      </div>
+      <!-- /.card -->
+  
+    </section>
+
+    <section class="content">
+
+        <!-- Default box -->
+        <div class="card">
+          <div class="card-header">
+
+            <h3 class="card-title">
+                <i class="fas fa-list mr-1"></i>
+                Liste des Paiements
+              </h3>
+
+            <div class="card-tools">
+              <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
+                <i class="fas fa-minus"></i>
+              </button>
+              <button type="button" class="btn btn-tool" title="Remove">
+                <!-- <button type="submit" class="btn btn-success" (click)="createAffectation()"><i class="fas fa-plus"></i> Affectation des missions </button>-->
+              </button>
+            </div>
+          </div>
+
+          <div class="card-body p-0">
+            
+            <!--  AFFICHAGE DE L'ADMINISTRATEUR -->
+            <table  *ngIf="administration == 1" class="table table-striped projects">
+                <thead>
+                    <tr>
+                    
+                     <td>
+                        Date d'intervention
+                    </td>
+                    
+                    <td>
+                        Client
+                    </td>
+
+                    <td>
+                      Personnel
+                    </td>
+
+                    <td>
+                        Durée
+                    </td>
+
+                    <td>
+                        Montant 
+                    </td>
+
+                    <td>
+                      Commision 
+                    </td>
+
+                    <td>
+ 
+                    </td>
+
+                </thead>
+
+                <tbody>
+
+                    <tr *ngFor="let affectation of affectations">
+
+                        <td *ngIf="affectation.statut == 3 || affectation.statut == 2" >
+                            Le {{ affectation.date_mission | date : 'dd/MM/yyyy' }} à {{ affectation.heure_mission }} 
+                        </td>
+                        
+                        <td *ngIf="affectation.statut == 3 || affectation.statut == 2">
+                          {{ affectation.nom_client | uppercase }} ( {{ affectation.type_client }} )
+                        </td>
+                        
+                        <td *ngIf="affectation.statut == 3 || affectation.statut == 2">
+                          {{ affectation.nom_utilisateur | uppercase }} {{ affectation.prenom_utilisateur | uppercase }}
+                        </td>
+
+                        <td *ngIf="affectation.statut == 3 || affectation.statut == 2">
+                            {{ affectation.duree }} h
+                        </td>
+
+                        <td *ngIf="affectation.statut == 3 || affectation.statut == 2">
+                            {{ affectation.montant }} €
+                        </td>
+                        
+                        <td *ngIf="affectation.statut == 3 || affectation.statut == 2">
+                            {{ affectation.commisions }} €
+                        </td>
+
+                        <td *ngIf="affectation.statut == 2 || affectation.statut == 3" class="project-actions text-right" >
+                            
+                            <!-- <button *ngIf="affectation.statut == 2" type="button" class="btn btn-success btn-xm" (click)="edit(affectation)" disabled="disabled">  PAYE </button> -->
+                            <button *ngIf="affectation.statut == 2" type="button" class="btn btn-primary btn-xm" (click)="payer(affectation)">  EN ATTENTE <i class="fas fa-pause"> </i> </button>
+                            <button *ngIf="affectation.statut == 3" type="button" class="btn btn-success btn-xm" disabled="disabled">   PAYE <i class="fas fa-check"> </i> </button>
+                        </td>
+                        
+                    </tr>
+                </tbody>
+            </table>
+
+            <!--  AFFICHAGE DU PERSONNEL -->
+            <table  *ngIf="administration == 0" class="table table-striped projects">
+
+              <thead>
+                  <tr>
+                  
+                    <td>
+                        Date d'intervention
+                    </td>
+                    
+                    <td>
+                        Adresse
+                    </td>
+
+                    <td>
+                      Durée
+                    </td>
+
+                    <td>
+                      Montant Horaire 
+                    </td> 
+
+                    <td>
+                      Total 
+                    </td>
+
+                    <td>
+
+                    </td> 
+
+                  </tr>
+
+              </thead>
+
+              <tbody>
+
+                  <tr *ngFor="let affectation of affectations" >
+
+                      <td *ngIf="affectation.id_utilisateur == id_utilisateur && affectation.statut > 0">
+                        Le {{ affectation.date_mission | date : 'dd/MM/yyyy' }} à {{ affectation.heure_mission }} 
+                      </td>
+                      
+                      <td *ngIf="affectation.id_utilisateur == id_utilisateur && affectation.statut > 0">
+                        {{ affectation.adresse_client | uppercase }} ( {{ affectation.type_client }} )
+                      </td>
+                      
+                      <td *ngIf="affectation.id_utilisateur == id_utilisateur && affectation.statut > 0">
+                          {{ affectation.duree }} h
+                      </td>
+
+                      <td *ngIf="affectation.id_utilisateur == id_utilisateur && affectation.statut > 0">
+                          {{ affectation.tarif_horaire_personnel }} €
+                      </td >
+                      
+                      <td *ngIf="affectation.id_utilisateur == id_utilisateur && affectation.statut > 0">
+                          {{ affectation.commisions }} €
+                      </td>
+
+                      <td class="project-actions text-right" *ngIf="affectation.id_utilisateur == id_utilisateur && affectation.statut > 0">
+
+                          <!-- <button *ngIf="affectation.statut == 0" type="button" class="btn btn-primary btn-xm" (click)="validerAnnuler(affectation, 1)"> <i class="fas fa-check"> </i></button>-->
+                          <!-- <button *ngIf="affectation.statut == 0" type="button" class="btn btn-danger btn-xm" (click)="validerAnnuler(affectation, 3)" >  <i class="fas fa-times"> </i></button> -->
+                          
+                          <button *ngIf="affectation.statut == 1 || affectation.statut == 2 " type="button" class="btn btn-primary btn-xm" disabled="disabled">  ATTENTE <i class="fas fa fa-pause"> </i> </button>
+                          <button *ngIf="affectation.statut == 3" type="button" class="btn btn-success btn-xm" disabled="disabled">   PAYE <i class="fas fa-check"> </i> </button>
+                          <!--<button *ngIf="affectation.statut == 0" type="button" class="btn btn-primary btn-xm" (click)="payer(affectation)"> <i class="fas fa-trash"> </i></button> -->
+                          
+                      </td>
+                      
+                  </tr>
+
+              </tbody>
+
+          </table>
+
+          </div>
+          <!-- /.card-body -->
+        </div>
+        <!-- /.card -->
+    
+      </section>
+
+  </div>
+
+  
+  <!-- /.content -->
+  <!-- /.content-wrapper -->

@@ -1,0 +1,179 @@
+<!-- Content Wrapper. Contains page content -->
+
+<app-appheader> </app-appheader>
+
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+ 
+    
+    <div class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1 class="m-0"><i class="fas fa-user-secret mr-1"> </i>Clients</h1>
+          </div><!-- /.col -->
+          <!--
+          <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+              <li class="breadcrumb-item"><a href="#">Home</a></li>
+              <li class="breadcrumb-item active">Dashboard v1</li>
+            </ol>
+          </div>
+          -->
+          <!-- /.col -->
+        </div><!-- /.row -->
+      </div><!-- /.container-fluid -->
+    </div>
+    
+    <section class="content">
+
+      <!-- Default box -->
+      <div class="card">
+        <div class="card-header">
+
+          <h3 class="card-title">
+              <i class="fas fa-funnel mr-1"></i>
+              Filtrer les Clients
+            </h3>
+
+          <div class="card-tools">
+            <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
+              <i class="fas fa-minus"></i>
+            </button>
+            <button type="button" class="btn btn-tool" title="Remove">
+              <!-- <button type="submit" class="btn btn-success" (click)="createAffectation()"><i class="fas fa-plus"></i> Affectation des missions </button>-->
+            </button>
+          </div>
+        </div>
+
+        <div class="card-body p-0">
+          
+          <div class="row" style="margin:1%;">
+
+            <div class="col-sm-5">
+              <div class="form-group">
+  
+                <label for="filtrer_client"> CLIENT / TYPE / SOURCE</label>
+                <input  (change)="filtrerClient()" [(ngModel)]="filtrer_client" name="filtrer_client" type="text" class="form-control" id="filtrer_client" placeholder="">
+                
+              </div>
+            </div>
+
+            <div class="col-sm-1">
+              <div class="form-group">
+                <label for="filtrer_client_date"> Date </label>
+                <input (change)="filtrerClient()" [(ngModel)]="filtrer_client_date" name="filtrer_client_date" type="checkbox" id="filtrer_client_date" placeholder="">
+              </div>
+            </div>
+
+            <div class="col-sm-3">
+              <div class="form-group">
+  
+                <label for="filtrer_client_du"> DU </label>
+                <input  (change)="filtrerClient()" [(ngModel)]="filtrer_client_du" name="filtrer_client_du" type="date" class="form-control" id="filtrer_client_du" placeholder="">
+                
+              </div>
+            </div>
+
+            <div class="col-sm-3">
+              <div class="form-group">
+  
+                <label for="filtrer_client_au"> AU </label>
+                <input  (change)="filtrerClient()" [(ngModel)]="filtrer_client_au" name="filtrer_client_au" type="date" class="form-control" id="filtrer_client_au" placeholder="">
+                
+              </div>
+            </div>
+
+          </div>
+          
+
+        </div>
+        <!-- /.card-body -->
+      </div>
+      <!-- /.card -->
+  
+    </section>
+
+    <section class="content">
+
+        <!-- Default box -->
+        <div class="card">
+          <div class="card-header">
+
+            <h3 class="card-title">
+                <i class="fas fa-list mr-1"></i>
+                Liste des Clients
+              </h3>
+
+            <div class="card-tools">
+              <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
+                <i class="fas fa-minus"></i>
+              </button>
+              <button type="button" class="btn btn-tool" title="Remove">
+                <button type="submit" class="btn btn-success" (click)="createClient()"><i class="fas fa-plus"></i> Créer un Client </button>
+              </button>
+            </div>
+          </div>
+          <div class="card-body p-0">
+            <table class="table table-striped projects">
+                <thead>
+                    <tr>
+                        <th style="width: 1%">
+                            #
+                        </th>
+                        <th style="width: 40%">
+                            Client
+                        </th>
+                        <th style="width: 15%">
+                            Statut
+                        </th>
+                        
+                        <th style="width: 15%">
+                            Source
+                        </th>
+
+                        <th style="width: 29%">
+                          <input [(ngModel)]="date_attestation" name="date_attestation" type="date" class="form-control" id="date_attestation" placeholder="">
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let client of clients">
+                        <td>
+                            #
+                        </td>
+                        <td>
+                            <a>
+                                {{ client.nom_client}}
+                            </a>
+                        </td>
+                        <td>
+                            <a>
+                                <span style="color:darkblue; font-weight: bold;"> </span> {{ client.type_client}}
+                            </a>
+                        </td>
+                        
+                        <td>
+                            <a>
+                                <span style="color:darkblue; font-weight: bold;"> </span> {{ client.source}}
+                            </a>
+                        </td>
+
+                        <td class="project-actions text-right">
+                            <button type="button" class="btn btn-secondary btn-xm" (click)="attestation(client)"> <i class="fas fa-file-pdf"> </i> ATTESTATION </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+          </div>
+          <!-- /.card-body -->
+        </div>
+        <!-- /.card -->
+    
+    </section>
+
+  </div>
+
+  
+  <!-- /.content -->
+  <!-- /.content-wrapper -->

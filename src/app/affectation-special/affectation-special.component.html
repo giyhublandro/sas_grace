@@ -1,0 +1,618 @@
+
+  
+  <app-appheader> </app-appheader>
+
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1>Duplication des Affectation</h1>
+          </div>
+          <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+              <li class="breadcrumb-item"><a href="#">Home</a></li>
+              <li class="breadcrumb-item active">Calendar</li>
+            </ol>
+          </div>
+        </div>
+      </div><!-- /.container-fluid -->
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="sticky-top mb-3">
+              <div class="card">
+                <div class="card-header">
+                  <h4 class="card-title">Duplication des Affectation</h4>
+                </div>
+                <div class="card-body">
+
+                    <form [formGroup]="assignForm" class="form">
+
+                        <div class="row">
+
+                            <div class="col-md-4">
+                                
+                                <div class="form-group">
+
+                                    <label>Mission <i class="fa fa-angle-down"> </i> </label>
+                                    <select  name="id_mission" formControlName="id_mission" class="form-control select2 select2-danger" data-dropdown-css-class="select2-danger" style="width: 100%;"
+                                    [ngClass] = "{
+                                    'is-invalid': assignForm.controls['id_mission'].errors && assignForm.controls['id_mission'].touched,
+                                    'is-valid': !assignForm.controls['id_mission'].errors
+                                    }">
+                                    
+                                    <option *ngFor="let mission of missions" value="{{ mission.id_mission }} "> {{ mission.mission | uppercase }}</option>
+                                    
+                                    </select>
+                                    <div class="alert alert-danger" *ngIf="assignForm.controls['id_mission'].errors && assignForm.controls['id_mission'].touched ">
+                                    <span *ngIf="assignForm.controls['id_mission'].errors?.['required']"> Bien vouloir choisir une mission</span>
+        
+                                    </div>
+
+                                </div>
+
+                                <div class="form-group">
+
+                                    <label>Client <i class="fa fa-angle-down"> </i></label>
+                                    <select  (change)="onChangeClient($event)" [(ngModel)]= "id_client" name="id_client" formControlName="id_client" class="form-control select2 select2-danger" data-dropdown-css-class="select2-danger" style="width: 100%;"
+                                    [ngClass] = "{
+                                    'is-invalid': assignForm.controls['id_client'].errors && assignForm.controls['id_client'].touched,
+                                    'is-valid': !assignForm.controls['id_client'].errors
+                                    }">
+                                    
+                                    <option *ngFor="let client of clients" value="{{ client.id_client }} "> {{ client.nom_client | uppercase }}</option>
+                                    
+                                    </select>
+                                    <div class="alert alert-danger" *ngIf="assignForm.controls['id_client'].errors && assignForm.controls['id_client'].touched ">
+                                    <span *ngIf="assignForm.controls['id_client'].errors?.['required']"> Bien vouloir choisir un client</span>
+                                    </div>
+
+                                </div>
+
+                                <div class="form-group">
+
+                                    <label>Personnel <i class="fa fa-angle-down"> </i></label>
+                                    <select  name="id_utilisateur" formControlName="id_utilisateur" name="id_utilisateur" class="form-control select2 select2-danger" data-dropdown-css-class="select2-danger" style="width: 100%;"
+                                    [ngClass] = "{
+                                    'is-invalid': assignForm.controls['id_utilisateur'].errors && assignForm.controls['id_utilisateur'].touched,
+                                    'is-valid': !assignForm.controls['id_utilisateur'].errors
+                                    }">
+                                    
+                                    <option *ngFor="let utilisateur of utilisateurs" value="{{ utilisateur.id_utilisateur }} "> 
+                                        {{ utilisateur.nom_utilisateur | uppercase }} {{ utilisateur.prenom_utilisateur | uppercase}}
+                                    </option>
+                                    
+                                    </select>
+                                    <div class="alert alert-danger" *ngIf="assignForm.controls['id_utilisateur'].errors && assignForm.controls['id_utilisateur'].touched ">
+                                    <span *ngIf="assignForm.controls['id_utilisateur'].errors?.['required']"> Bien vouloir choisir un personnel</span>
+                                    </div>
+
+                                </div>
+
+                                <div class="row">
+
+                                    <div class="col-sm-6">
+  
+                                        <div class="form-group">
+  
+                                            <label for="date_mission_1">Dupliquer Du</label>
+                                            <input (change)="onDateMission1Change($event)" name="date_mission_1" formControlName="date_mission_1" type="date" class="form-control" id="date_mission_1" placeholder="">
+                                            
+                                        </div>
+  
+                                    </div>
+  
+                                    <div class="col-sm-6">
+  
+                                        <div class="form-group">
+  
+                                            <label for="date_mission_2">Au</label>
+                                            <input name="date_mission_2" formControlName="date_mission_2" type="date" class="form-control" id="date_mission_2" placeholder="">
+                                            
+                                        </div>
+  
+                                    </div>
+  
+                                  </div>
+
+                            </div>
+
+                            <div class="col-md-8">
+
+                                <div class="row">
+
+                                    <div class="col-sm-3">
+                                        <div class="form-group">
+                                                    
+                                            <label for="duree">Durée</label>
+                                            <div class="input-group">
+                                                <input (change)="onDureeChange()"  [(ngModel)] ="duree" name="duree" formControlName="duree" type="number" class="form-control" id="duree" placeholder="">
+                                                <div class="input-group-append">
+                                                    <button type="button" class="btn btn-primary" disabled="disabled">En Heure</button>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+                                    <div class="col-sm-3">
+                                      <div class="form-group">
+                                                  
+                                          <label for="tarif_horaire_option">Tarif Hor. Option</label> 
+                                          <div class="input-group">
+                                            <input (change)="onTarifHoraireOptionChange()" [(ngModel)] ="tarif_horaire_option" name="tarif_horaire_option" formControlName="tarif_horaire_option" type="number" class="form-control" id="tarif_horaire_option" placeholder="">
+                                            <div class="input-group-append">
+                                                    <button type="button" class="btn btn-primary" disabled="disabled">€</button>
+                                                </div>
+                                          </div>
+                                      </div>
+                                    </div>
+
+                                    <div class="col-sm-3">
+                                        <div class="form-group">
+                                                    
+                                            <label for="tarif_horaire_client">Tarif Hor. Client</label> 
+                                            <div class="input-group">
+                                              <input (change)="onTarifHoraireClientChange()"  [(ngModel)] ="tarif_horaire_client" name="tarif_horaire_client" formControlName="tarif_horaire_client" type="number" class="form-control" id="tarif_horaire_client" placeholder="">
+                                              <div class="input-group-append">
+                                                      <button type="button" class="btn btn-primary" disabled="disabled">€</button>
+                                                  </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-sm-3">
+                                      <div class="form-group">
+                                                  
+                                          <label for="tarif_horaire_personnel">Tarif Hor. Personnel</label> 
+                                          <div class="input-group">
+                                            <input (change)="onTarifHorairePersonnelChange()" [(ngModel)] ="tarif_horaire_personnel" name="tarif_horaire_personnel" formControlName="tarif_horaire_personnel" type="number" class="form-control" id="tarif_horaire_personnel" placeholder="">
+                                                <div class="input-group-append">
+                                                    <button type="button" class="btn btn-primary" disabled="disabled">€</button>
+                                                </div>
+                                          </div>
+                                      </div>
+                                  </div>
+                                </div>
+
+                                <div class="row">
+
+                                  <div class="col-sm-4"> 
+                                    <div class="form-group">
+                                        <label for="montant_option">Frais Options</label>
+                                        <div class="input-group">
+                                            <input type="number" 
+                                                class="form-control" 
+                                                id="montant_option"
+                                                [readonly]="true" 
+                                                placeholder=""
+                                                [(ngModel)] ="montant_option"
+                                                name="montant_option"
+                                                formControlName="montant_option">
+                                                <div class="input-group-append">
+                                                    <button type="button" class="btn btn-primary" disabled="disabled">€</button>
+                                                </div>
+                                        </div>
+                                    </div>
+                                  </div>
+
+                                    <div class="col-sm-4"> 
+                                        <div class="form-group">
+                                            <label for="montant">Montant à Facturer</label>
+                                            <div class="input-group">
+                                                <input type="number" 
+                                                    class="form-control"
+                                                    [readonly]="true" 
+                                                    id="montant" 
+                                                    placeholder=""
+                                                    [(ngModel)] ="montant"
+                                                    name="montant"
+                                                    formControlName="montant">
+                                                    <div class="input-group-append">
+                                                        <button type="button" class="btn btn-primary" disabled="disabled">€</button>
+                                                    </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-sm-4"> 
+
+                                        <div class="form-group">
+
+                                            <label for="total_facture">Total à Facturer</label>
+                                            <div class="input-group">
+                                                <input  [(ngModel)] ="total_facture" id="total_facture" type="text" class="form-control" placeholder=""
+                                                name="total_facture" type="number" class="form-control" 
+                                                [readonly]="true"
+                                                id="total_facture" placeholder="" formControlName="total_facture"
+                                                [ngClass] = "{
+                                                'is-invalid': assignForm.controls['total_facture'].errors && assignForm.controls['total_facture'].touched,
+                                                'is-valid': !assignForm.controls['total_facture'].errors
+                                                }">
+                            
+                                                <div class="input-group-append">
+                                                <button type="button" class="btn btn-primary" disabled="disabled">€</button>
+                                                </div>
+                                                <!-- /btn-group -->
+                                            </div>
+                                            <div class="alert alert-danger" *ngIf="assignForm.controls['commisions'].errors && assignForm.controls['commisions'].touched ">
+                                                <span *ngIf="assignForm.controls['commisions'].errors?.['required']"> Bien vouloir saisir le taux de commisions </span>
+                                                <span *ngIf=" ! assignForm.controls['commisions'].errors?.['minLength']"> Saisir au moins 3 caractères</span>
+
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+                                <div class="row">
+
+                                  <div class="col-sm-4"> 
+
+                                    <div class="form-group">
+
+                                        <label for="commisions">Montant à Payer</label>
+                                        <div class="input-group">
+                                            <input  [(ngModel)] ="commisions" id="commisions" type="text" class="form-control" placeholder=""
+                                            name="commisions" type="number" class="form-control" id="commisions" placeholder="" 
+                                            [readonly]="true"
+                                            formControlName="commisions"
+                                            [ngClass] = "{
+                                            'is-invalid': assignForm.controls['commisions'].errors && assignForm.controls['commisions'].touched,
+                                            'is-valid': !assignForm.controls['commisions'].errors
+                                            }">
+                        
+                                            <div class="input-group-append">
+                                            <button type="button" class="btn btn-primary" disabled="disabled">€</button>
+                                            </div>
+                                            <!-- /btn-group -->
+                                        </div>
+                                        <div class="alert alert-danger" *ngIf="assignForm.controls['commisions'].errors && assignForm.controls['commisions'].touched ">
+                                            <span *ngIf="assignForm.controls['commisions'].errors?.['required']"> Bien vouloir saisir le taux de commisions </span>
+                                            <span *ngIf=" ! assignForm.controls['commisions'].errors?.['minLength']"> Saisir au moins 3 caractères</span>
+
+                                        </div>
+                                    </div>
+                                  </div>
+
+                                  <div class="col-sm-8">
+
+                                    <div class="form-group">
+
+                                      <div class="form-group">
+                                        <label for="frequence">Fréquence de la Mission  </label> <i class="fa fa-angle-down">  </i> 
+                                        <select [(ngModel)]="frequence" name="frequence" formControlName="frequence" name="frequence" id="frequence" class="form-control select2 select2-danger" data-dropdown-css-class="select2-danger" style="width: 100%;"
+                                        [ngClass] = "{
+                                        'is-invalid': assignForm.controls['frequence'].errors && assignForm.controls['frequence'].touched,
+                                        'is-valid': !assignForm.controls['frequence'].errors
+                                        }">
+
+                                          <option selected="selected" value=1>Ponctuelle</option>
+                                          <option selected="selected" value=2>Une fois par Semaine</option>
+                                          <!-- <option selected="selected" value=3>Deux fois par Semaine</option> -->
+                                          <option selected="selected" value=4>Plusieurs fois par Semaine</option>
+                                          <option selected="selected" value=5>Une fois toutes les deux Semaines</option>
+                                          <option selected="selected" value=6>Une fois par mois</option>
+                                          
+                                        </select>  
+                                        <div class="alert alert-danger" *ngIf="assignForm.controls['frequence'].errors && assignForm.controls['frequence'].touched ">
+                                        </div>
+                                      </div>
+
+                                    </div>
+
+                                </div>
+
+                                </div>
+                                <!-- <div class="row" *ngIf="frequence == 1"> -->
+                                <div class="row" *ngIf=" frequence >= 1">
+
+                                  <div class="col-sm-6">
+
+                                      <div class="form-group">
+                                        
+                                          <label for="date_mission">Date d'intervetion</label>
+                                          <input (change)="onDateMissionChange($event)" name="date_mission" formControlName="date_mission" type="date" class="form-control" id="date_mission" placeholder="">
+                                          
+                                      </div>
+
+                                  </div>
+
+                                  <div class="col-sm-6">
+
+                                      <div class="form-group">
+
+                                          <label for="heure_mission">Heure d'intervetion</label>
+                                          <input (change)="onHeureMissionChange($event)" name="heure_mission" formControlName="heure_mission" type="time" class="form-control" id="heure_mission" placeholder="">
+                                          
+                                      </div>
+
+                                  </div>
+
+                                </div>
+
+                                <div class="row" *ngIf=" frequence == 2 || frequence == 3 || frequence == 4 || frequence == 5">
+
+                                  <div class="col-sm-6">
+
+                                      <div class="form-group">
+
+                                          <label for="jour_1">Jours 1</label>
+                                          <select [(ngModel)]="jour_1" formControlName="jour_1" name="jour_1"
+                                           id="jour_1" class="form-control select2 select2-danger" data-dropdown-css-class="select2-danger"
+                                            style="width: 100%;"
+                                          >
+                                            <option value="-1">  </option>
+                                            <option value="0"> Dimanche </option>
+                                            <option selected="selected" value="1"> Lundi </option>
+                                            <option value="2"> Mardi </option>
+                                            <option value="3"> Mercredi </option>
+                                            <option value="4"> Jeudi </option>
+                                            <option value="5"> Vendredi </option>
+                                            <option value="6"> Samedi </option>
+                                          </select>
+
+                                      </div>
+
+                                  </div>
+
+                                  <div class="col-sm-6">
+
+                                      <div class="form-group">
+
+                                          <label for="heure_1">Heure d'intervetion</label>
+                                          <input [(ngModel)]="heure_1" name="heure_1	" formControlName="heure_1" type="time" class="form-control" id="heure_1" placeholder="">
+                                          
+                                      </div>
+
+                                  </div>
+
+                                  <div class="col-sm-6" *ngIf="frequence == 3 || frequence == 4">
+
+                                    <div class="form-group">
+
+                                        <label for="jour_2">Jours 2</label>
+                                        <select  name="jour_2" formControlName="jour_2" name="jour_2"
+                                         id="jour_2" class="form-control select2 select2-danger" data-dropdown-css-class="select2-danger"
+                                          style="width: 100%;"
+                                        >
+                                          <option value="-1">  </option>
+                                          <option value="0"> Dimanche </option>
+                                          <option selected="selected" value="1"> Lundi </option>
+                                          <option value="2"> Mardi </option>
+                                          <option value="3"> Mercredi </option>
+                                          <option value="4"> Jeudi </option>
+                                          <option value="5"> Vendredi </option>
+                                          <option value="6"> Samedi </option>
+                                        </select>
+                                    </div>
+
+                                </div>
+
+                                <div class="col-sm-6" *ngIf="frequence == 3 || frequence == 4">
+
+                                    <div class="form-group">
+
+                                        <label for="heure_2">Heure d'intervetion</label>
+                                        <input name="heure_2	" formControlName="heure_2" type="time" class="form-control" id="heure_2" placeholder="">
+                                        
+                                    </div>
+
+                                </div>
+
+                                <div class="col-sm-6" *ngIf=" frequence == 4">
+
+                                  <div class="form-group">
+
+                                      <label for="jour_3">Jours 3</label>
+                                      <select name="jour_3" formControlName="jour_3" name="jour_3"
+                                       id="jour_3" class="form-control select2 select2-danger" data-dropdown-css-class="select2-danger"
+                                        style="width: 100%;"
+                                      >
+                                        <option value="-1">  </option>
+                                        <option value="0"> Dimanche </option>
+                                        <option selected="selected" value="1"> Lundi </option>
+                                        <option value="2"> Mardi </option>
+                                        <option value="3"> Mercredi </option>
+                                        <option value="4"> Jeudi </option>
+                                        <option value="5"> Vendredi </option>
+                                        <option value="6"> Samedi </option>
+                                      </select>
+                                  </div>
+
+                              </div>
+
+                              <div class="col-sm-6" *ngIf=" frequence == 4">
+
+                                  <div class="form-group">
+
+                                      <label for="heure_3">Heure d'intervetion</label>
+                                      <input name="heure_3	" formControlName="heure_3" type="time" class="form-control" id="heure_3" placeholder="">
+                                      
+                                  </div>
+
+                              </div>
+
+                              <div class="col-sm-6" *ngIf=" frequence == 4">
+
+                                <div class="form-group">
+
+                                    <label for="jour_4">Jours 4</label>
+                                    <select name="jour_4" formControlName="jour_4" name="jour_4"
+                                     id="jour_4" class="form-control select2 select2-danger" data-dropdown-css-class="select2-danger"
+                                      style="width: 100%;"
+                                    >
+                                      <option value="-1">  </option>
+                                      <option value="0"> Dimanche </option>
+                                      <option selected="selected" value="1"> Lundi </option>
+                                      <option value="2"> Mardi </option>
+                                      <option value="3"> Mercredi </option>
+                                      <option value="4"> Jeudi </option>
+                                      <option value="5"> Vendredi </option>
+                                      <option value="6"> Samedi </option>
+                                    </select>
+                                </div>
+
+                            </div>
+
+                            <div class="col-sm-6" *ngIf=" frequence == 4">
+
+                                <div class="form-group">
+
+                                    <label for="heure_4">Heure d'intervetion</label>
+                                    <input name="heure_4	" formControlName="heure_4" type="time" class="form-control" id="heure_4" placeholder="">
+                                    
+                                </div>
+
+                            </div>
+
+                            <div class="col-sm-6" *ngIf=" frequence == 4">
+
+                              <div class="form-group">
+
+                                  <label for="jour_5">Jours 5</label>
+                                  <select name="jour_5" formControlName="jour_5" name="jour_5"
+                                   id="jour_5" class="form-control select2 select2-danger" data-dropdown-css-class="select2-danger"
+                                    style="width: 100%;"
+                                  >
+                                    <option value="-1">  </option>
+                                    <option value="0"> Dimanche </option>
+                                    <option selected="selected" value="1"> Lundi </option>
+                                    <option value="2"> Mardi </option>
+                                    <option value="3"> Mercredi </option>
+                                    <option value="4"> Jeudi </option>
+                                    <option value="5"> Vendredi </option>
+                                    <option value="6"> Samedi </option>
+                                  </select>
+                              </div>
+
+                          </div>
+
+                          <div class="col-sm-6" *ngIf=" frequence == 4">
+
+                              <div class="form-group">
+
+                                  <label for="heure_5">Heure d'intervetion</label>
+                                  <input name="heure_5	" formControlName="heure_5" type="time" class="form-control" id="heure_5" placeholder="">
+                                  
+                              </div>
+
+                          </div>
+
+                              <div class="col-sm-6" *ngIf=" frequence == 4">
+
+                                <div class="form-group">
+
+                                    <label for="jour_6">Jours 6</label>
+                                    <select name="jour_6" formControlName="jour_6" name="jour_6"
+                                    id="jour_6" class="form-control select2 select2-danger" data-dropdown-css-class="select2-danger"
+                                      style="width: 100%;"
+                                    >
+                                      <option value="-1">  </option>
+                                      <option value="0"> Dimanche </option>
+                                      <option selected="selected" value="1"> Lundi </option>
+                                      <option value="2"> Mardi </option>
+                                      <option value="3"> Mercredi </option>
+                                      <option value="4"> Jeudi </option>
+                                      <option value="5"> Vendredi </option>
+                                      <option value="6"> Samedi </option>
+                                    </select>
+                                </div>
+
+                            </div>
+
+                                  <div class="col-sm-6" *ngIf=" frequence == 4">
+
+                                      <div class="form-group">
+
+                                          <label for="heure_6">Heure d'intervetion</label>
+                                          <input name="heure_6	" formControlName="heure_6" type="time" class="form-control" id="heure_6" placeholder="">
+                                          
+                                      </div>
+
+                                  </div>
+
+                                  <div class="col-sm-6" *ngIf=" frequence == 4">
+
+                                    <div class="form-group">
+
+                                        <label for="jour_7">Jours 7</label>
+                                        <select name="jour_7" formControlName="jour_7" name="jour_7"
+                                        id="jour_7" class="form-control select2 select2-danger" data-dropdown-css-class="select2-danger"
+                                          style="width: 100%;"
+                                        >
+                                          <option value="-1">  </option>
+                                          <option value="0"> Dimanche </option>
+                                          <option selected="selected" value="1"> Lundi </option>
+                                          <option value="2"> Mardi </option>
+                                          <option value="3"> Mercredi </option>
+                                          <option value="4"> Jeudi </option>
+                                          <option value="5"> Vendredi </option>
+                                          <option value="6"> Samedi </option>
+                                        </select>
+                                    </div>
+
+                                </div>
+
+                                <div class="col-sm-6" *ngIf=" frequence == 4">
+
+                                    <div class="form-group">
+
+                                        <label for="heure_7">Heure d'intervetion</label>
+                                        <input name="heure_7	" formControlName="heure_7" type="time" class="form-control" id="heure_7" placeholder="">
+                                        
+                                    </div>
+
+                                </div>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                        <div class="row">
+                          <div class="col-sm-12"> 
+                              <div class="card-footer" style="text-align: right;">
+                              <button (click)="createAffectation(assignForm.value)" type="submit" [disabled]="!assignForm.valid" class="btn btn-primary" ><i class="fas fa-plus"></i> {{ titreButton }} </button>
+                              </div>
+                          </div>
+                          <div class="col-sm-12"> 
+                            <div class="card-footer" style="text-align: left;">
+                                
+                            <!--<button (click)="dupliquer()" class="btn btn-success" ><i class="fas fa-times"></i> Dupliquer </button> -->
+                            </div>
+                          </div>
+                        </div>
+
+                    </form>
+
+                </div>
+                <!-- /.card-body -->
+              </div>
+              
+            </div>
+          </div>
+          <!-- /.col -->
+        
+          <!-- /.col -->
+        </div>
+        <!-- /.row -->
+      </div><!-- /.container-fluid -->
+
+    </section>
+    <!-- /.content -->
+  </div>
+  <!-- /.content-wrapper -->
+<app-appfooter> </app-appfooter>
+
+
+<!-- ./wrapper -->

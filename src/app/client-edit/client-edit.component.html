@@ -1,0 +1,534 @@
+<!-- Content Wrapper. Contains page content -->
+
+
+<app-appheader> </app-appheader>
+
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <div class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1 class="m-0"><i class="fas fa-user-secret mr-1"> </i>Clients</h1>
+          </div><!-- /.col -->
+          <!--
+          <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+              <li class="breadcrumb-item"><a href="#">Home</a></li>
+              <li class="breadcrumb-item active">Dashboard v1</li>
+            </ol>
+          </div>
+          -->
+          <!-- /.col -->
+        </div><!-- /.row -->
+      </div><!-- /.container-fluid -->
+    </div>
+    <!-- /.content-header -->
+
+    <!-- Main content -->
+    <section class="content">
+      <div class="container-fluid">
+        <!-- Small boxes (Stat box) -->
+       
+        <div class="row">
+          <!-- Left col -->
+          <section class="col-lg-12 connectedSortable">
+            <!-- Custom tabs (Charts with tabs)-->
+            <div class="card">
+              <div class="card-header">
+                <h3 class="card-title">
+                  <i class="fas fa-plus mr-1"></i>
+                  {{ titreFenetre }}
+                </h3>
+                <h3 style="text-align: right;">
+                  <button class="btn btn-success" (click)="ListeClients()"><i class="fas fa-list mr-1"></i> Liste des Clients </button>
+                </h3>
+                <div class="card-tools">
+                  <ul class="nav nav-pills ml-auto">
+                    <li class="nav-item">
+                      <!-- <a class="nav-link active" href="#revenue-chart" data-toggle="tab">Area</a> -->
+                    </li>
+                    <li class="nav-item">
+                      <!-- <a class="nav-link" href="#sales-chart" data-toggle="tab">Donut</a> -->
+                    </li>
+                  </ul>
+                </div>
+              </div><!-- /.card-header -->
+              <div class="card-body">
+                <div class="tab-content p-0">
+                  <!-- Morris chart - Sales -->
+                  <div class="chart tab-pane active" id="revenue-chart"
+                       style="position: relative; ">
+                      <div class="row">
+                        <div class="col-lg-12">
+                          
+                            <div class="row">
+
+                              <form [formGroup]="clientForm" class="form">
+
+                                    <input [(ngModel)]="id_client" name="id_client" formControlName="id_client" class="custom-control-input" type="hidden" id="id_client">
+                                    <input [(ngModel)]="id_option_client" name="id_option_client" formControlName="id_option_client" class="custom-control-input" type="hidden" id="id_option_client">
+                                    
+                                    <div class="row">
+
+                                        <div class="col-sm-6">
+        
+                                            <div class="row">
+
+                                                <div class="col-sm-6">
+                                                    <div class="form-group">
+                                                        <label for="type_client">Type de Client</label>
+                                                        <select (change)="onTypeClientChange($event)" [(ngModel)]="type_client" name="type_client" formControlName="type_client" name="type_client" id="type_client" class="form-control select2 select2-danger" data-dropdown-css-class="select2-danger" style="width: 100%;"
+                                                        [ngClass] = "{
+                                                        'is-invalid': clientForm.controls['type_client'].errors && clientForm.controls['type_client'].touched,
+                                                        'is-valid': !clientForm.controls['type_client'].errors
+                                                        }">
+                                                        <option selected="selected" value="Particulier">PARTICULIER</option>
+                                                        <option value="Entreprise">ENTREPRISE</option>
+                                                        </select>  
+                                                        <div class="alert alert-danger" *ngIf="clientForm.controls['type_client'].errors && clientForm.controls['type_client'].touched ">
+                                                        <span *ngIf="clientForm.controls['type_client'].errors?.['required']"> Bien vouloir choisir le type de client</span>
+                                                        <span *ngIf=" ! clientForm.controls['type_client'].errors?.['minLength']"> Saisir au moins 3 caractères</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-sm-6">
+                                                  <div class="form-group">
+                                                      <label for="id_source">Source</label>
+                                                      <select [(ngModel)]="id_source" name="id_source" formControlName="id_source" name="id_source" id="id_source" class="form-control select2 select2-danger" data-dropdown-css-class="select2-danger" style="width: 100%;"
+                                                      [ngClass] = "{
+                                                      'is-invalid': clientForm.controls['id_source'].errors && clientForm.controls['id_source'].touched,
+                                                      'is-valid': !clientForm.controls['id_source'].errors
+                                                      }">
+                                                      <option *ngFor="let source of sources" value="{{ source.id_source }}" [selected]="source.id_source===id_source" > {{ source.source}}</option>
+        
+                                                      </select>  
+                                                      <div class="alert alert-danger" *ngIf="clientForm.controls['id_source'].errors && clientForm.controls['id_source'].touched ">
+                                                      <span *ngIf="clientForm.controls['id_source'].errors?.['required']"> Bien vouloir choisir la source</span>
+                                                      </div>
+                                                  </div>
+                                                </div>
+                                                
+                                            </div>
+        
+                                            <div class="row">
+                                                <div class="col-sm-12">
+        
+                                                    <div class="form-group">
+                                                        <label for="nom_client">Client</label>
+                                                        <input [(ngModel)]="nom_client" name="nom_client" formControlName="nom_client" type="text" class="form-control" id="nom_client" placeholder=""
+                                                        >
+                                                        
+                                                    </div>
+        
+                                                </div>
+        
+                                            </div>
+                                            
+                                            <div class="row">
+
+                                              <div class="col-sm-12">
+        
+                                                  <div class="form-group" *ngIf="referent">
+                                                      <label for="nom_referent">Référent</label>
+                                                      <input [(ngModel)]="nom_referent" name="nom_referent" formControlName="nom_referent" type="text" class="form-control" id="nom_referent" placeholder=""
+                                                      >
+                                                      
+                                                  </div>
+        
+                                              </div>
+                                            </div>
+
+                                            <div class="row">
+        
+                                                <div class="col-sm-6">
+                                                    <div class="form-group">
+                                                        <label for="telephone_1">Téléphone 1</label>
+                                                        <input type="tel" 
+                                                            class="form-control" 
+                                                            id="telephone_1" 
+                                                            [(ngModel)]="telephone_1"
+                                                            placeholder="" 
+                                                            name="telephone_1"
+                                                            formControlName="telephone_1"
+                                                            >
+                                                        
+                                                    </div>
+                                                </div>
+        
+                                                <div class="col-sm-6">
+                                                    <div class="form-group">
+                                                        <label for="telephone_2">Téléphone 2</label>
+                                                        <input type="text" 
+                                                            class="form-control" 
+                                                            [(ngModel)]="telephone_2"
+                                                            id="telephone_2" 
+                                                            placeholder="" 
+                                                            name="telephone_2"
+                                                            formControlName="telephone_2"
+                                                        >
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-sm-12">
+                                                  <div class="form-group">
+                                                      <label for="email_client">Email</label>
+                                                      <input type="text" 
+                                                          class="form-control" 
+                                                          id="email_client" 
+                                                          placeholder="" 
+                                                          name="email_client"
+                                                          [(ngModel)]="email_client"
+                                                          formControlName="email_client"
+                                                      >
+                                                  </div>
+                                                </div>
+
+                                            </div>
+
+                                            <div class="row">
+
+                                              <div class="col-sm-6">
+                                                <div class="form-group">
+                                                    <label for="ville_client">Ville</label>
+                                                    <select
+                                                        class="form-control" 
+                                                        id="ville_client" 
+                                                        placeholder="" 
+                                                        name="ville_client"
+                                                        formControlName="ville_client"
+                                                        [(ngModel)] = "ville_client"
+                                                        (change)="onVilleChange($event)"
+                                                    > 
+                                                    <option *ngFor="let ville of villes" value="{{ ville.ville_nom}}" [selected]="ville.ville_nom === ville_client"> {{ ville.ville_nom }} </option>
+      
+                                                    </select>
+                                                </div>
+                                              </div>
+                                              
+                                              <div class="col-sm-6">
+                                                <div class="form-group">
+                                                    <label for="code_postal">Code Postal</label>
+                                                    <select
+                                                        class="form-control" 
+                                                        id="code_postal" 
+                                                        placeholder="" 
+                                                        name="code_postal"
+                                                        (change)="onCodePostalChange()"
+                                                        [(ngModel)] = "code_postal"
+                                                        formControlName="code_postal"
+                                                    > 
+                                                      <option *ngFor="let code_postal of code_postaux" value="{{code_postal.ville_code_postal}}" [selected]="code_postal.ville_code_postal===code_postal"> {{ code_postal.ville_code_postal }} </option>
+          
+                                                    </select>
+                                                </div>
+                                              </div>
+      
+                                              <div class="col-sm-12">
+                                                  <div class="form-group">
+                                                      <label for="adresse_client">Rue</label>
+                                                      <input 
+                                                      [(ngModel)] = "adresse_client"
+                                                      name="adresse_client"
+                                                      type="text" 
+                                                      class="form-control" 
+                                                      id="adresse_client" 
+                                                      placeholder="" 
+                                                      formControlName="adresse_client"
+                                                      [ngClass] = "{
+                                                      'is-invalid': clientForm.controls['adresse_client'].errors && clientForm.controls['adresse_client'].touched,
+                                                      'is-valid': !clientForm.controls['adresse_client'].errors
+                                                      }">
+                                                      <div class="alert alert-danger" *ngIf="clientForm.controls['adresse_client'].errors && clientForm.controls['adresse_client'].touched ">
+                                                      <span *ngIf="clientForm.controls['adresse_client'].errors?.['required']"> Bien vouloir saisir une adresse </span>
+                                                      <span *ngIf=" ! clientForm.controls['adresse_client'].errors?.['minLength']"> Saisir au moins 3 caractères</span>
+                                                      </div>
+                                                  </div>
+                                              </div>
+
+                                            </div>
+        
+                                        </div>
+        
+                                        <div class="col-sm-6">
+        
+                                            <div class="row">
+        
+                                                <div class="col-sm-6">
+        
+                                                    <div class="form-group">
+        
+                                                        <label for="code_acces_1">Code accès 1 </label>
+                                                        <input [(ngModel)]="code_acces_1" name="code_acces_1" formControlName="code_acces_1" type="text" class="form-control" id="code_acces_1" placeholder="">
+                                                        
+                                                    </div>
+        
+                                                </div>
+        
+                                                <div class="col-sm-6">
+        
+                                                    <div class="form-group">
+                                                        
+                                                        <label for="code_acces_2">Code accès 2</label>
+                                                        <input [(ngModel)]="code_acces_2" name="code_acces_2" formControlName="code_acces_2" type="text" class="form-control" id="code_acces_2" placeholder="">
+                                                        
+                                                    </div>
+                                                    
+                                                </div>
+        
+                                            </div>
+
+                                            <div class="row">
+
+                                              <div class="col-sm-12">
+                                                <div class="form-group">
+                                                  <label for="nombreOption"> Nombre d'options  </label> <i class="fa fa-angle-down">  </i> 
+                                                  <select [(ngModel)]="nombreOption" (change)="onOptionsNumberChange($event)" name="nombreOption" formControlName="nombreOption" name="nombreOption" id="type_client" class="form-control select2 select2-danger" data-dropdown-css-class="select2-danger" style="width: 100%;"
+                                                  >
+                                                    <option [selected]="true" value=0>0</option>
+                                                    <option  value=1>1</option>
+                                                    <option value=2>2</option>
+                                                    <option value=3>3</option>
+                                                    <option value=4>4</option>
+                                                  </select>  
+                                                </div>
+                                              </div>
+                                            </div>
+        
+                                            <div class="row" *ngIf="nombreOption > 0 ">
+        
+                                              <div class="col-sm-7">
+                                                  
+                                                <div class="form-group">
+        
+                                                    <label for="option">Option</label>
+        
+                                                    <select [(ngModel)]="option_1" (change)="onChangeOption1($event)" name="option_1" formControlName="option_1" type="text" class="form-control" id="option_1" placeholder="">
+                                                      <option *ngFor=" let option of options" value ="{{ option.id_option }}"> {{ option.option }} </option>
+                                                    </select>
+        
+                                                </div>
+        
+                                              </div>
+        
+                                              <div class="col-sm-5"> 
+        
+                                                  <div class="form-group">
+        
+                                                      <label for="montant_option_1">Frais</label>
+                                                      <div class="input-group">
+                                                          <input [(ngModel)] = "montant_option_1" 
+                                                          type="number" class="form-control"
+                                                          name="montant_option_1" 
+                                                          type="number" 
+                                                          class="form-control" id="montant_option_1" 
+                                                          placeholder="" 
+                                                          formControlName="montant_option_1"
+                                                         >
+                                      
+                                                          <div class="input-group-append">
+                                                          <button type="button" class="btn btn-primary" disabled="disabled">€ / heure </button>
+                                                          </div>
+                                                          <!-- /btn-group -->
+                                                      </div>
+                                                      
+                                                  </div>
+        
+                                              </div>
+        
+                                            </div>
+        
+                                            <div class="row" *ngIf="nombreOption > 1 ">
+        
+                                              <div class="col-sm-7">
+                                                  
+                                                <div class="form-group">
+        
+                                                    <label for="option">Option</label>
+        
+                                                    <select [(ngModel)]="option_2" (change)="onChangeOption2($event)" name="option_2" formControlName="option_2" type="text" class="form-control" id="option_2" placeholder="">
+                                                      <option *ngFor=" let option of options" value ="{{ option.id_option }}"> {{ option.option }} </option>
+                                                    </select>
+        
+                                                </div>
+        
+                                              </div>
+        
+                                              <div class="col-sm-5"> 
+        
+                                                  <div class="form-group">
+        
+                                                      <label for="montant_option_2">Frais</label>
+                                                      <div class="input-group">
+                                                          <input [(ngModel)] = "montant_option_2" id="montant_option_2" type="number" class="form-control" placeholder=""
+                                                          name="montant_option_2" type="number" class="form-control" id="montant_option_2" placeholder="" formControlName="montant_option_2"
+                                                         >
+                                      
+                                                          <div class="input-group-append">
+                                                          <button type="button" class="btn btn-primary" disabled="disabled">€ / heure </button>
+                                                          </div>
+                                                          <!-- /btn-group -->
+                                                      </div>
+                                                      
+                                                  </div>
+        
+                                              </div>
+        
+                                            </div>
+        
+                                            <div class="row" *ngIf="nombreOption > 2">
+        
+                                              <div class="col-sm-7">
+                                                  
+                                                <div class="form-group">
+        
+                                                    <label for="option">Option</label>
+        
+                                                    <select [(ngModel)]="option_3" (change)="onChangeOption3($event)" name="option_3" formControlName="option_3" type="text" class="form-control" id="option_3" placeholder="">
+                                                      <option *ngFor=" let option of options" value ="{{ option.id_option }}"> {{ option.option }} </option>
+                                                    </select>
+        
+                                                </div>
+        
+                                              </div>
+        
+                                              <div class="col-sm-5"> 
+        
+                                                  <div class="form-group">
+        
+                                                      <label for="montant_option_3">Frais</label>
+                                                      <div class="input-group">
+                                                          <input [(ngModel)] = "montant_option_3" id="montant_option_3" type="number" class="form-control" placeholder=""
+                                                          name="montant_option_3" type="number" class="form-control" id="montant_option_3" placeholder="" formControlName="montant_option_3"
+                                                         >
+                                      
+                                                          <div class="input-group-append">
+                                                          <button type="button" class="btn btn-primary" disabled="disabled">€ / heure </button>
+                                                          </div>
+                                                          <!-- /btn-group -->
+                                                      </div>
+                                                      
+                                                  </div>
+        
+                                              </div>
+        
+                                            </div>
+        
+                                            <div class="row" *ngIf="nombreOption > 3 ">
+        
+                                              <div class="col-sm-7">
+                                                  
+                                                <div class="form-group">
+        
+                                                    <label for="option">Option</label>
+        
+                                                    <select [(ngModel)]="option_4" (change)="onChangeOption4($event)" name="option_4" formControlName="option_4" type="text" class="form-control" id="option_4" placeholder="">
+                                                      <option *ngFor=" let option of options" value ="{{ option.id_option }}"> {{ option.option }} </option>
+                                                    </select>
+        
+                                                </div>
+        
+                                              </div>
+        
+                                              <div class="col-sm-5"> 
+        
+                                                  <div class="form-group">
+        
+                                                      <label for="montant_option_4">Frais</label>
+                                                      <div class="input-group">
+                                                          <input [(ngModel)] = "montant_option_4" id="montant_option_4" type="number" class="form-control" placeholder=""
+                                                          name="montant_option_4" type="number" class="form-control" id="montant_option_4" placeholder="" formControlName="montant_option_4"
+                                                         >
+                                      
+                                                          <div class="input-group-append">
+                                                          <button type="button" class="btn btn-primary" disabled="disabled">€ / heure </button>
+                                                          </div>
+                                                          <!-- /btn-group -->
+                                                      </div>
+                                                      
+                                                  </div>
+        
+                                              </div>
+        
+                                            </div>
+        
+                                            <div class="row">
+        
+                                                <div class="col-sm-12">
+        
+                                                  <div class="form-group">
+                                                      
+                                                      <label for="commentaire">Autres Précisions d'accès</label>
+                                                      <textarea [(ngModel)]="commentaire" name="commentaire" formControlName="commentaire" type="text" class="form-control" id="commentaire" placeholder=""> </textarea>
+                                                  </div>
+                                                  
+                                              </div>
+        
+                                                
+                                            </div>
+
+                                            <div class="row">
+
+                                              <div class="col-sm-12">
+
+                                                <div class="form-group">
+        
+                                                  <div class="form-group">
+                                                    <label for="frequence_client">Fréquence du client  </label> <i class="fa fa-angle-down">  </i> 
+                                                    <select [(ngModel)]="frequence_client" name="frequence_client" formControlName="frequence_client" name="frequence_client" id="frequence_client" class="form-control select2 select2-danger" data-dropdown-css-class="select2-danger" style="width: 100%;"
+                                                    [ngClass] = "{
+                                                    'is-invalid': clientForm.controls['frequence_client'].errors && clientForm.controls['frequence_client'].touched,
+                                                    'is-valid': !clientForm.controls['frequence_client'].errors
+                                                    }">
+            
+                                                      <option selected="selected" value=1>Ponctuel</option>
+                                                      <option selected="selected" value=2>Régulier</option>
+                                                      
+                                                    </select>  
+        
+                                                    <div class="alert alert-danger" *ngIf="clientForm.controls['frequence_client'].errors && clientForm.controls['frequence_client'].touched ">
+                                                    </div>
+        
+                                                  </div>
+            
+                                                </div>
+        
+                                              </div> 
+                                              
+                                            </div>
+        
+                                        </div>
+        
+                                    </div>
+                                    
+                                  <div class="row">
+                                    <div class="col-sm-12"> 
+                                        <div class="card-footer" style="text-align: right;">
+                                            <button (click)="updateClient(clientForm.value)" type="submit" [disabled]="!clientForm.valid" class="btn btn-primary" ><i class="fas fa-plus"></i> {{ titreButton }} </button>
+                                        </div>
+                                    </div>
+                              </div>
+
+                              </form>
+
+                           </div>
+              
+                        </div>
+                      </div>
+                   </div>
+                  
+                </div>
+              </div><!-- /.card-body -->
+            </div>
+            <!-- /.card -->
+
+          </section>
+
+        </div>
+        <!-- /.row (main row) -->
+      </div><!-- /.container-fluid -->
+    </section>
+    <!-- /.content -->
+  </div>
+  <!-- /.content-wrapper -->

@@ -1,0 +1,110 @@
+<!-- Content Wrapper. Contains page content -->
+
+<app-appheader> </app-appheader>
+
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+
+    <div class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1 class="m-0"><i class="fas fa-tags mr-1"> </i>Services</h1>
+          </div><!-- /.col -->
+          <!--
+          <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+              <li class="breadcrumb-item"><a href="#">Home</a></li>
+              <li class="breadcrumb-item active">Dashboard v1</li>
+            </ol>
+          </div>
+          -->
+          <!-- /.col -->
+        </div><!-- /.row -->
+      </div><!-- /.container-fluid -->
+    </div>
+   
+    <section class="content">
+
+        <!-- Default box -->
+        <div class="card">
+          <div class="card-header">
+
+            <h3 class="card-title">
+                <i class="fas fa-list mr-1"></i>
+                Liste des Services
+              </h3>
+
+            <div class="card-tools">
+              <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
+                <i class="fas fa-minus"></i>
+              </button>
+              <button type="button" class="btn btn-tool" title="Remove">
+                <button type="submit" class="btn btn-success" (click)="createMission()"><i class="fas fa-plus"></i> Création des Services </button>
+              </button>
+            </div>
+          </div>
+          <div class="card-body p-0">
+            <table class="table table-striped projects">
+                <thead>
+                    <tr>
+                        <td>
+                          Services
+                        </td>
+
+                        <td>
+                          Montant
+                        </td>
+
+                        <td>
+                          Détails
+                        </td>
+
+                        <td>
+                            
+                        </td>
+
+                        <td>
+                            
+                        </td>
+
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <tr *ngFor="let mission of missions">
+
+                        <td>
+                            {{ mission.mission }}
+                        </td>
+
+                        <td>
+                          {{ mission.montant }} €
+                        </td>
+
+                        <td>
+                            {{ mission.description }}
+                        </td>
+                        
+                        <td class="project-actions text-right">
+                            <button type="button" class="btn btn-success btn-xm" (click)="edit(mission)" >  <i class="fas fa-edit"> </i></button> 
+                        </td>
+
+                        <td class="project-actions text-right">
+                            <button type="button" class="btn btn-danger btn-xm" (click)="delete(mission)"> <i class="fas fa-trash"> </i></button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+          </div>
+          <!-- /.card-body -->
+        </div>
+        <!-- /.card -->
+    
+      </section>
+
+  </div>
+
+  
+  <!-- /.content -->
+  <!-- /.content-wrapper -->

@@ -1,0 +1,989 @@
+<!-- Content Wrapper. Contains page content -->
+
+<app-appheader> </app-appheader>
+
+<div class="content-wrapper">
+
+
+
+    <!-- Content Header (Page header) -->
+    <div class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1 class="m-0"><i class="fas fa-filter"> </i>Rapports</h1>
+          </div><!-- /.col -->
+          <!--
+          <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+              <li class="breadcrumb-item"><a href="#">Home</a></li>
+              <li class="breadcrumb-item active">Dashboard v1</li>
+            </ol>
+          </div>
+          -->
+          <!-- /.col -->
+        </div><!-- /.row -->
+      </div><!-- /.container-fluid -->
+    </div>
+    <!-- /.content-header -->
+
+    <!-- Main content -->
+    <section class="content">
+      <div class="container-fluid">
+        <!-- Small boxes (Stat box) -->
+       
+        <div class="row">
+          <!-- Left col -->
+          <section class="col-lg-12 connectedSortable">
+            <!-- Custom tabs (Charts with tabs)-->
+            <div class="card">
+              <div class="card-header">
+                <h3 class="card-title">
+                  <i class="fas fa-filter"></i>
+                  Filtres
+                </h3>
+                <div class="card-tools">
+                  <ul class="nav nav-pills ml-auto">
+                    <li class="nav-item">
+                      <!-- <a class="nav-link active" href="#revenue-chart" data-toggle="tab">Area</a> -->
+                    </li>
+                    <li class="nav-item">
+                      <!-- <a class="nav-link" href="#sales-chart" data-toggle="tab">Donut</a> -->
+                    </li>
+                  </ul>
+                </div>
+              </div><!-- /.card-header -->
+              <div class="card-body">
+                <div class="tab-content p-0">
+                  <!-- Morris chart - Sales -->
+                  <div class="chart tab-pane active" id="revenue-chart"
+                       style="position: relative; ">
+                      <div class="row">
+                        <div class="col-lg-12">
+
+                            <form class="form" [formGroup]="rapportForm">
+
+                                <div class="row">
+
+                                        <div class="card-body">
+                                            
+                                            <div class="row">
+
+                                                <div class="col-sm-8">
+
+                                                    <div class="row">
+
+                                                        <div class="col-sm-8">
+
+                                                          <div class="form-group">
+                                                              <label> Liste des Rapports <i class="fa fa-angle-down"> </i></label>
+                                                              <select formControlName="rapports" (change)="onChangeRapport($event)" name="rapports" class="form-control select2 select2-danger" data-dropdown-css-class="select2-danger" value="0" style="width: 100%;">
+                                                                <option value=7>Chiffres d'Affaires</option>
+                                                                <option value=1>Liste des Clients</option> <!-- PAR SOURCE ET TYPE -->
+                                                                <option value=2>Les Missions</option> <!-- SUR UNE PERIODE AVEC TOTAL HEURE, TOTAL PAYE CLIENT & USER -->
+                                                                <option value=3>Les Validations </option>
+                                                                <option value=4>Les Paiements</option>
+                                                                <option value=5>Les Factures</option>
+                                                                <option value=6>Les Utilisateurs</option>
+                                                              </select>
+                                                          </div>
+
+                                                        </div>
+                                                        
+                                                        <div class="col-sm-4" *ngIf="chiffresAffaires">
+                                                          <div class="form-group">
+                                                              <label for="filtre"> Filtre </label> <i class="fa fa-angle-down">  </i> 
+                                                              <select (change)="onChangeFiltreCA($event)" name="filtre" formControlName="filtre" id="filtre" class="form-control select2 select2-danger" data-dropdown-css-class="select2-danger" style="width: 100%;"> 
+                                                                <option value=0>Par Client</option>
+                                                                <option value=1>Par Type de Client</option>
+                                                                <option value=2>Par Source</option>
+                                                                <option value=3>Par Fréquence</option>
+                                                              </select>  
+                                                          </div>
+                                                        </div>
+
+                                                        <div class="col-sm-4" *ngIf="factures">
+                                                          <div class="form-group">
+                                                              <label for="filtre_facture"> Filtre </label> <i class="fa fa-angle-down">  </i> 
+                                                              <select (change)="onChangeFiltreFacture($event)" name="filtre_facture" formControlName="filtre_facture" id="filtre_facture" class="form-control select2 select2-danger" data-dropdown-css-class="select2-danger" style="width: 100%;"
+                                                              >
+                                                                <option value=0>Toutes</option>
+                                                                <option value=1>Par Client</option>
+                                                                
+                                                              </select>  
+                                                          </div>
+                                                        </div>
+
+                                                        <div class="col-sm-4" *ngIf="utilisateur">
+                                                          <div class="form-group">
+                                                              <label for="id_profil"> Profils </label> <i class="fa fa-angle-down">  </i> 
+                                                              <select name="id_profil" formControlName="id_profil" name="id_profil" id="id_profil" class="form-control select2 select2-danger" data-dropdown-css-class="select2-danger" style="width: 100%;"
+                                                              >
+                                                                <option value=0>Tous</option>
+                                                                <option *ngFor="let profil of profils" value= "{{profil.id_profil}}"> {{profil.nom_profil}} </option>
+                                                                
+                                                              </select>  
+                                                          </div>
+                                                        </div>
+
+                                                        <div class="col-sm-4" *ngIf="client">
+                                                          <div class="form-group">
+                                                              <label for="filtre"> Filtre </label> <i class="fa fa-angle-down">  </i> 
+                                                              <select (change)="onChangeFiltre($event)" name="filtre" formControlName="filtre" name="filtre" id="filtre" class="form-control select2 select2-danger" data-dropdown-css-class="select2-danger" style="width: 100%;"
+                                                              >
+                                                                <option value=0>Tous</option>
+                                                                <option value=1>Par Type</option>
+                                                                <option value=2>Par Source</option>
+                                                                <option value=3>Par Fréquence</option>
+                                                                
+                                                              </select>  
+                                                          </div>
+                                                        </div>
+
+                                                        <div class="col-sm-4" *ngIf="affectation">
+                                                          <div class="form-group">
+                                                              <label for="filtre_affectation"> Filtre  </label> <i class="fa fa-angle-down">  </i> 
+                                                              <select (change)="onChangeFiltreAffectation($event)" name="filtre_affectation" formControlName="filtre_affectation" name="filtre_affectation" id="filtre_affectation" class="form-control select2 select2-danger" data-dropdown-css-class="select2-danger" style="width: 100%;"
+                                                              >
+                                                                <option value=0> Toutes / Tous </option>
+                                                                <option value=1>Pour un Client</option>
+                                                                <option value=2>Pour un Utilsateur</option>
+                                                                
+                                                              </select>  
+                                                          </div>
+                                                        </div>
+
+                                                    </div>
+
+                                                    <div class="row" >
+
+                                                      <div class="col-sm-6" *ngIf="this.selectedFiltre == 1">
+                                                        <div class="form-group">
+                                                            <label for="type_client">Type de Client </label> <i class="fa fa-angle-down">  </i> 
+                                                            <select name="type_client" formControlName="type_client" name="type_client" id="type_client" class="form-control select2 select2-danger" data-dropdown-css-class="select2-danger" style="width: 100%;"
+                                                            >
+                                                            <option selected="selected" value="Particulier">PARTICULIER</option>
+                                                            <option value="Entreprise">ENTREPRISE</option>
+                                                            </select>  
+                                                        </div>
+                                                      </div>
+
+                                                      <div class="col-sm-6" *ngIf="this.selectedFiltre == 2">
+                                                        <div class="form-group">
+                                                            <label for="id_source">Source </label> <i class="fa fa-angle-down">  </i> 
+                                                            <select name="id_source" formControlName="id_source" name="id_source" id="id_source" class="form-control select2 select2-danger" data-dropdown-css-class="select2-danger" style="width: 100%;"
+                                                            >
+                                                            <option *ngFor="let source of sources" value="{{ source.id_source }} "> {{ source.source}}</option>
+              
+                                                            </select>  
+                                                            
+                                                        </div>
+                                                      </div>
+
+                                                      <div class="col-sm-6" *ngIf="this.selectedFiltre == 3">
+
+                                                        <div class="form-group">
+
+                                                          <div class="form-group">
+                                                            <label for="frequence">Fréquence</label> <i class="fa fa-angle-down">  </i> 
+                                                            <select name="frequence" formControlName="frequence" name="frequence" id="frequence" class="form-control select2 select2-danger" data-dropdown-css-class="select2-danger" style="width: 100%;"
+                                                            [ngClass] = "{
+                                                            'is-invalid': assignForm.controls['frequence'].errors && assignForm.controls['frequence'].touched,
+                                                            'is-valid': !assignForm.controls['frequence'].errors
+                                                            }">
+                    
+                                                              <option selected="selected" value=1>Ponctuel</option>
+                                                              <option selected="selected" value=2>Régulier</option>
+                                                              
+                                                            </select>  
+                                                            <div class="alert alert-danger" *ngIf="assignForm.controls['frequence'].errors && assignForm.controls['frequence'].touched ">
+                                                            </div>
+                                                          </div>
+                    
+                                                        </div>
+                    
+
+                                                      </div>
+
+                                                      <div class="col-sm-6" *ngIf="this.selectedFiltreFacture == 1 || this.selectedFiltreAffectation == 1">
+                                                        <div class="form-group">
+                                                            <label for="id_client">Clients </label> <i class="fa fa-angle-down">  </i> 
+                                                            <select name="id_client" formControlName="id_client" id="id_client" class="form-control select2 select2-danger" data-dropdown-css-class="select2-danger" style="width: 100%;"
+                                                            >
+                                                            <option *ngFor="let client of clients" value="{{client.id_client}} "> {{client.nom_client}}</option>
+              
+                                                            </select>  
+                                                            
+                                                        </div>
+                                                      </div>
+
+                                                      <div class="col-sm-6" *ngIf="this.selectedFiltreAffectation == 2">
+                                                        <div class="form-group">
+                                                            <label for="id_utilisateur">Utilisateurs </label> <i class="fa fa-angle-down">  </i> 
+                                                            <select name="id_utilisateur" formControlName="id_utilisateur" name="id_utilisateur" id="id_utilisateur" class="form-control select2 select2-danger" data-dropdown-css-class="select2-danger" style="width: 100%;"
+                                                            >
+                                                            <option *ngFor="let utilisateur of utilisateurs" value="{{utilisateur.id_utilisateur}} "> {{ utilisateur.nom_utilisateur }} {{ utilisateur.prenom_utilisateur}}</option>
+              
+                                                            </select>  
+                                                            
+                                                        </div>
+                                                      </div>
+
+                                                    </div>
+                                                 
+                                              </div>
+                                              
+                                              <div class="col-sm-2">
+                                                <div class="form-group" *ngIf="showDate">
+                                                  <label for="date_du">Du </label>
+                                                  <input  formControlName="date_du" name="date_du" type="date" class="form-control" id="date_du" placeholder="">
+                                                </div>
+                                              </div>
+
+                                              <div class="col-sm-2">
+                                                <div class="form-group" *ngIf="showDate">
+                                                  <label for="date_au">Au </label>
+                                                  <input formControlName="date_au" name="date_au"  type="date" class="form-control" id="date_au" placeholder="">
+                                                </div>
+                                              </div>
+
+                                            </div>
+                                            
+                                        </div>
+                                  
+                                  <div class="row" *ngIf="chiffresAffaires || client || utilisateur || affectation">
+                                    <div class="col-sm-12"> 
+                                        <div class="card-footer" style="text-align: right;">
+                                            <button [disabled]="!rapportForm.valid" (click) ="visualiserRapport(rapportForm.value)" type="submit" class="btn btn-primary" ><i class="fas fa-eye"></i> Visualiser </button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                </div>
+              
+                              </form>
+
+                              <!-- LISTE DES FACTURES -->
+                              <div class="row" *ngIf="factures">
+         
+                                <div class="col-md-12">
+                                  
+                                  <div class="card">
+                                      <div class="card-header">
+                            
+                                        <h3 class="card-title">
+                                            <i class="fas fa-file-invoice mr-1"></i>
+                                            Liste des Factures Produites
+                                          </h3>
+                                      
+                                        <div class="card-tools">
+                                          <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
+                                            <i class="fas fa-minus"></i>
+                                            
+                                          </button>
+                                          <select [(ngModel)]="etat" name="etat" (change)="onChangeFactureState()"
+                                                  id="etat" class="form-control select2 select2-danger" data-dropdown-css-class="select2-danger"
+                                              style="width: 100%;"
+                                            >
+                                              <option value="0" [selected]="true"> Factures Non Réglées</option>
+                                              <option value="1"> Factures Réglées</option>
+                      
+                                          </select>
+                                          <button type="button" class="btn btn-tool" title="Remove">
+                                            <!-- <button type="submit" class="btn btn-success" (click)="createAffectation()"><i class="fas fa-plus"></i> Affectation des missions </button>-->
+                                          </button>
+                                        </div>
+                                      </div>
+                                      
+                                      <div class="card-body p-0">
+                                        
+                                        <!-- DETAILS DDETAIL DU PLANNING -->
+                                        
+                                        <!--  FACTURES CLIENTS -->
+                      
+                                        <form [formGroup]="assignForm" class="form" *ngIf="administration == 1">
+                      
+                                          <table  class="table table-striped projects">
+                                              <thead>
+                              
+                                                  <tr>
+                                                  
+                                                      <td>
+                                                        Date de Facturation
+                                                      </td>
+                                                      
+                                                      <td>
+                                                        Numéro Facture
+                                                      </td>
+                              
+                                                      <td>
+                                                        Libellé
+                                                      </td>
+                                                      
+                                                      <td>
+                                                        Montant 
+                                                      </td>
+                              
+                                                      <td>
+                                  
+                                                      </td>
+                              
+                                                  </tr>
+                              
+                                              </thead>
+                              
+                                              <tbody>
+                              
+                                                  <tr *ngFor="let facture of facturesList" >
+                              
+                                                        <td *ngIf=" etat == facture.etat" >
+                                                            Le {{ facture.date_facturation | date : 'dd/MM/yyyy' }} 
+                                                        </td>
+                                                        
+                                                        <td *ngIf=" etat == facture.etat">
+                                                          {{ facture.numero_facture | uppercase }} 
+                                                        </td>
+                      
+                                                        <td *ngIf=" etat == facture.etat" >
+                                                            {{ facture.libelle | uppercase }} 
+                                                        </td>
+                      
+                                                        <td *ngIf=" etat == facture.etat" >
+                                                            {{ facture.montant }} €
+                                                        </td >
+                        
+                                                        <td class="project-actions text-right" *ngIf =" etat == facture.etat">
+                                                            
+                                                           <!-- <i class="fa fa-download" aria-hidden="true"></i> -->
+                                                            <button type="button" class="btn btn-primary btn-xm" (click)="imprimer(facture)">  <i class="fas fa-file-pdf"> </i></button>
+                                                            
+                                                            <button *ngIf=" facture.etat == 0 " type="button" class="btn btn-success btn-xm" (click)="regler(facture, 1)">  <i class="fas fa-check"> </i></button>
+                      
+                                                            <button *ngIf=" facture.etat == 1 " type="button" class="btn btn-danger btn-xm" (click)="regler(facture, 0)">  <i class="fas fa-ban"> </i></button>
+                                                            
+                                                        </td>
+                                                        
+                                                      
+                                                  </tr>
+                      
+                                              </tbody>
+                      
+                                          </table>
+                      
+                                        </form>
+                                        
+                                        <form [formGroup]="assignForm" class="form" *ngIf="administration == 0">
+                      
+                                          <table  class="table table-striped projects">
+                                              <thead>
+                              
+                                                  <tr>
+                                                  
+                                                      <td>
+                                                        Date de Facturation
+                                                      </td>
+                                                      
+                                                      <td>
+                                                        Numéro Facture
+                                                      </td>
+                              
+                                                      <td>
+                                                        Libellé
+                                                      </td>
+                                                      
+                                                      <td>
+                                                        Montant 
+                                                      </td>
+                              
+                                                      <td>
+                                  
+                                                      </td>
+                              
+                                                  </tr>
+                              
+                                              </thead>
+                              
+                                              <tbody>
+                              
+                                                  <tr *ngFor="let facture of facturesList" >
+                              
+                                                        <td *ngIf=" etat == facture.etat" >
+                                                            Le {{ facture.date_facturation | date : 'dd/MM/yyyy' }} 
+                                                        </td>
+                                                        
+                                                        <td *ngIf=" etat == facture.etat">
+                                                          {{ facture.numero_facture | uppercase }} 
+                                                        </td>
+                      
+                                                        <td *ngIf=" etat == facture.etat" >
+                                                            {{ facture.libelle | uppercase }} 
+                                                        </td>
+                      
+                                                        <td *ngIf=" etat == facture.etat" >
+                                                            {{ facture.montant }} €
+                                                        </td >
+                        
+                                                        <td class="project-actions text-right" *ngIf =" etat == facture.etat">
+                                                            
+                                                           <!-- <i class="fa fa-download" aria-hidden="true"></i> -->
+                                                            <button type="button" class="btn btn-primary btn-xm" (click)="imprimer(facture)">  <i class="fas fa-file-pdf"> </i></button>
+                                                            
+                                                            <button *ngIf=" facture.etat == 0 " type="button" class="btn btn-success btn-xm" (click)="regler(facture, 1)">  <i class="fas fa-check"> </i></button>
+                      
+                                                            <button *ngIf=" facture.etat == 1 " type="button" class="btn btn-danger btn-xm" (click)="regler(facture, 0)">  <i class="fas fa-ban"> </i></button>
+                                                            
+                                                        </td>
+                                                        
+                                                      
+                                                  </tr>
+                      
+                                              </tbody>
+                      
+                                          </table>
+                      
+                                        </form>
+                                        
+                                        <table  class="table table-striped projects" *ngIf="factures">
+                                          <thead>
+                          
+                                              <tr>
+                                              
+                                                  <td>
+                                                    
+                                                  </td>
+                                                  
+                                                  <td>
+                                                    
+                                                  </td>
+                          
+                                                  <td>
+                                                    
+                                                  </td>
+                                                  
+                                                  <td>
+                                                     TOTAL
+                                                  </td>
+                          
+                                                  <td>
+                                                    {{ total_facture }} €
+                                                  </td>
+                          
+                                              </tr>
+                          
+                                          </thead>
+                                        </table>
+
+                                    </div>
+                                      <!-- /.card-body -->
+                                  </div>
+                      
+                                </div>
+                                <!-- /.col -->
+                              </div>
+
+                              <!-- CHIFFRES D'AFFAIRES -->
+                              <div class="row" *ngIf="chiffresAffaires">
+         
+                                <div class="col-md-12">
+                                  
+                                  <div class="card">
+                                      <div class="card-header">
+                            
+                                        <h3 class="card-title">
+                                            <i class="fas fa-file-invoice mr-1"></i>
+                                            Chiffres d'Affaires Produits
+                                          </h3>
+                                      
+                                        <div class="card-tools">
+                                          <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
+                                            <i class="fas fa-minus"></i>
+                                            
+                                          </button>
+                                          
+                                        </div>
+                                      </div>
+                                      
+                                      <div class="card-body p-0">
+                                        
+                                        <!-- DETAILS DDETAIL DU PLANNING -->
+                                        
+                                        <!--  FACTURES CLIENTS -->
+                      
+                                        <form [formGroup]="assignForm" class="form" *ngIf="administration == 1">
+                      
+                                          <table  class="table table-striped projects">
+                                              <thead>
+                              
+                                                  <tr>
+                                                  
+                                                      <td>
+                                                        Critère
+                                                      </td>
+                                                      
+                                                      <td>
+                                                        Montant
+                                                      </td>
+                              
+                                                  </tr>
+                              
+                                              </thead>
+                              
+                                              <tbody>
+                              
+                                                  <tr *ngFor="let chiffres of CA" >
+                              
+                                                        <td *ngIf="chiffres.total_facture > 0">
+                                                            {{ chiffres.critere | uppercase }} 
+                                                        </td>
+                      
+                                                        <td *ngIf="chiffres.total_facture > 0">
+                                                            {{ chiffres.total_facture }} €
+                                                        </td >
+                        
+                                                  </tr>
+                      
+                                              </tbody>
+                      
+                                          </table>
+                      
+                                        </form>
+                                        
+                                        
+                                        <table  class="table table-striped projects" *ngIf="chiffresAffaires">
+                                          <thead>
+                          
+                                              <tr>
+                          
+                                                  <td>
+                                                    
+                                                  </td>
+                                                  
+                                                  <td>
+                                                     TOTAL
+                                                  </td>
+                          
+                                                  <td>
+                                                    {{ total_chiffres_affaires }} €
+                                                  </td>
+                          
+                                              </tr>
+                          
+                                          </thead>
+                                        </table>
+
+                                    </div>
+                                      <!-- /.card-body -->
+                                  </div>
+                      
+                                </div>
+                                <!-- /.col -->
+                              </div>
+
+                              <!-- CLIENTS -->
+                              <div class="row" *ngIf="client">
+         
+                                <div class="col-md-12">
+                                  
+                                  <div class="card">
+                                      <div class="card-header">
+                            
+                                        <h3 class="card-title">
+                                            <i class="fas fa-file-invoice mr-1"></i>
+                                            Liste des Clients
+                                          </h3>
+                                      
+                                        <div class="card-tools">
+                                          <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
+                                            <i class="fas fa-minus"></i>
+                                            
+                                          </button>
+                                          
+                                        </div>
+                                      </div>
+                                      
+                                      <div class="card-body p-0">
+                                        
+                                        <form [formGroup]="assignForm" class="form" *ngIf="administration == 1">
+                      
+                                          <table class="table table-striped projects">
+                                            <thead>
+                                                <tr>
+                                                    <th>
+                                                        #
+                                                    </th>
+                                                    <th>
+                                                        Client
+                                                    </th>
+                                                    <th>
+                                                        
+                                                    </th>
+                                                
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr *ngFor="let client of clientsList">
+                                                    <td>
+                                                        #
+                                                    </td>
+                                                    <td>
+                                                        <a>
+                                                            {{ client.nom_client}}
+                                                        </a>
+                                                        <br/>
+                                                        <a>
+                                                            <span style="color:darkblue; font-weight: bold;"> Statut : </span> {{ client.type_client}}
+                                                        </a>
+                                                        <br/>
+                                                        <a>
+                                                            <span style="color:darkblue; font-weight: bold;"> Adresse : </span> {{ client.adresse_client}} <br>
+                                                            <span style="color:darkblue; font-weight: bold;"> E-mail : </span> {{ client.email_client}} <br>
+                                                            <span style="color:darkblue; font-weight: bold;"> Source : </span> {{ client.source}}
+                                                        </a>
+                                                    </td>
+                                                    <td>
+                            
+                                                        <span style="color:darkblue; font-weight: bold;"> Téléphone 1 : </span> {{ client.telephone_1 }} <br>
+                                                        <span style="color:darkblue; font-weight: bold;"> Téléphone 2 : </span> {{ client.telephone_2 }} <br>
+                                                        <span style="color:darkblue; font-weight: bold;"> Code accès 1 : </span> {{ client.code_acces_1 }} <br>
+                                                        <span style="color:darkblue; font-weight: bold;"> Code accès 2 : </span> {{ client.code_acces_2 }}
+                                                        
+                                                    </td>
+                                                    
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                      
+                                        </form>
+                                        
+                                        
+                                        <table  class="table table-striped projects" *ngIf="client">
+                                          <thead>
+                          
+                                              <tr>
+                          
+                                                  <td>
+                                                    
+                                                  </td>
+                                                  
+                                                  <td>
+                                                     TOTAL
+                                                  </td>
+                          
+                                                  <td>
+                                                    {{ nombreClient}} 
+                                                  </td>
+                          
+                                              </tr>
+                          
+                                          </thead>
+                                        </table>
+
+                                    </div>
+                                      <!-- /.card-body -->
+                                  </div>
+                      
+                                </div>
+                                <!-- /.col -->
+                              </div>
+
+                              <!-- UTILISATEURS -->
+                              <div class="row" *ngIf="utilisateur">
+         
+                                <div class="col-md-12">
+                                  
+                                  <div class="card">
+                                      <div class="card-header">
+                            
+                                        <h3 class="card-title">
+                                            <i class="fas fa-file-invoice mr-1"></i>
+                                            Liste des utilisateurs
+                                          </h3>
+                                      
+                                        <div class="card-tools">
+                                          <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
+                                            <i class="fas fa-minus"></i>
+                                            
+                                          </button>
+                                          
+                                        </div>
+                                      </div>
+                                      
+                                      <div class="card-body p-0">
+                                        
+                                        <table class="table table-bordered table-striped">
+                                          <thead>
+                                          <tr>
+                                            <th>NOM</th>
+                                            <th>PRENOM</th>
+                                            <th>EMAIL</th>
+                                            <th>PROFIL</th>
+                                          </tr>
+                                          </thead>
+      
+                                          <tbody>
+      
+                                            <tr *ngFor="let utilisateur of users">
+                                              <td *ngIf =" utilisateur.id_utilisateur !== id_utilisateur "> {{ utilisateur.nom_utilisateur }} </td>
+                                              <td *ngIf =" utilisateur.id_utilisateur !== id_utilisateur "> {{ utilisateur.prenom_utilisateur }} </td>
+                                              <td *ngIf =" utilisateur.id_utilisateur !== id_utilisateur "> {{ utilisateur.email_utilisateur }} </td>
+                                             <td *ngIf =" utilisateur.id_utilisateur !== id_utilisateur "> {{ utilisateur.nom_profil }} </td>
+
+                                            </tr>
+                                            
+                                          </tbody>
+                                          <tfoot>
+                                          <tr>
+                                            <th>NOM</th>
+                                            <th>PRENOM</th>
+                                            <th>EMAIL</th>
+                                            <th>PROFIL</th>
+                                          </tr>
+                                          </tfoot>
+                                        </table>
+                                        <table  class="table table-striped projects" *ngIf="utilisateur">
+                                          <thead>
+                          
+                                              <tr>
+                          
+                                                  <td>
+                                                    
+                                                  </td>
+                                                  
+                                                  <td>
+                                                     TOTAL
+                                                  </td>
+                          
+                                                  <td>
+                                                    {{ nombreUsers}} 
+                                                  </td>
+                          
+                                              </tr>
+                          
+                                          </thead>
+                                        </table>
+
+                                    </div>
+                                      <!-- /.card-body -->
+                                  </div>
+                      
+                                </div>
+                                <!-- /.col -->
+                              </div>
+                              
+                              <!-- MISSIONS - VALIDATIONS - PAIEMENTS -->
+                              <div class="row" *ngIf="affectation">
+         
+                                <div class="col-md-12">
+                                  
+                                  <div class="card">
+                                      <div class="card-header">
+                            
+                                        <h3 class="card-title">
+                                            <i class="fas fa-file-invoice mr-1"></i>
+                                            Liste des Missions
+                                          </h3>
+                                      
+                                        <div class="card-tools">
+                                          <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
+                                            <i class="fas fa-minus"></i>
+                                            
+                                          </button>
+                                          
+                                        </div>
+                                      </div>
+                                      
+                                      <div class="card-body p-0">
+                                        
+                                        <table class="table table-striped projects">
+
+                                          <thead>
+                              
+                                              <tr>
+                              
+                                                  <td>
+                                                    Durée Totale
+                                                  </td>
+                              
+                                                  <td>
+                                                    Montant Options 
+                                                  </td>
+                              
+                                                  <td>
+                                                    Montant facturé
+                                                  </td>
+                              
+                                                  <td>
+                                                    Montant Total
+                                                  </td>
+                              
+                                                  <td>
+                                                    Montant Commission
+                                                  </td>
+                              
+                                                  <td>
+                                                    Montant Marge
+                                                  </td>
+                              
+                                                  <td>
+                                                    # Mission
+                                                  </td>
+                              
+                                              </tr>
+                              
+                                          </thead>
+                              
+                                          <tbody>
+                                              <!--POUR AFFECTER MISSION NE GERE QUE LES AFFECTATION DONT LE STATUT EST SOIT 0 OU -1 DONC NON TRAITE OU ANNULE -->
+                                              
+                                              <tr>
+                              
+                                                  <td>
+                                                      {{ resume_duree }} h
+                                                  </td>
+                              
+                                                  <td>
+                                                    {{ resume_montant_option }} €
+                                                  </td>
+                              
+                                                  <td>
+                                                      {{ resume_montant }} €
+                                                  </td>
+                              
+                                                  <td>
+                                                    {{ resume_total_facture }} €
+                                                  </td>
+                              
+                                                  <td>
+                                                    {{ resume_commisions	 }} €
+                                                  </td>
+                              
+                                                  <td>
+                                                    {{ resume_marge	 }} €
+                                                  </td>
+                                                  
+                                                  <td>
+                                                    {{nombreMission}} 
+                                                  </td>
+                              
+                                              </tr>
+                                          </tbody>
+                                         </table>
+                                         
+                                        <table class="table table-striped projects">
+                                          <thead>
+                          
+                                              <tr>
+                                              
+                                                  <td>
+                                                    Date d'intervention
+                                                  </td>
+                                                  
+                                                  <td>
+                                                      Client
+                                                  </td>
+                          
+                                                  <td>
+                                                    Personnel
+                                                  </td>
+                          
+                                                  <td>
+                                                    Durée
+                                                  </td>
+                          
+                                                  <td>
+                                                    Options 
+                                                  </td>
+                          
+                                                  <td>
+                                                    Mission 
+                                                  </td>
+                          
+                                                  <td>
+                                                    Total 
+                                                  </td>
+                          
+                                                  <td>
+                                                    Commision 
+                                                  </td>
+                          
+                                              </tr>
+                          
+                                          </thead>
+                          
+                                          <tbody>
+                          
+                                              <tr *ngFor="let affectation of affectations">
+                          
+                                                  <td>
+                                                    Le {{ affectation.date_mission | date : 'dd/MM/yyyy' }} à {{ affectation.heure_mission }} 
+                                                  </td>
+                                                  
+                                                  <td>
+                                                    {{ affectation.nom_client | uppercase }} ( {{ affectation.type_client }} )
+                                                  </td>
+                                                  
+                                                  <td>
+                                                    {{ affectation.nom_utilisateur | uppercase }} {{ affectation.prenom_utilisateur | uppercase }}
+                                                  </td>
+                          
+                                                  <td>
+                                                      {{ affectation.duree }} h
+                                                  </td>
+                          
+                                                  <td>
+                                                    {{ affectation.montant_option }} €
+                                                  </td>
+                          
+                                                  <td>
+                                                      {{ affectation.montant }} €
+                                                  </td>
+                          
+                                                  <td>
+                                                    {{ affectation.total_facture }} €
+                                                  </td>
+                                                  
+                                                  <td>
+                                                      {{ affectation.commisions	 }} €
+                                                  </td>
+                                                  
+                                              </tr>
+                                          </tbody>
+                                      </table>
+                                        
+                                    </div>
+                                      <!-- /.card-body -->
+                                  </div>
+                      
+                                </div>
+                                <!-- /.col -->
+                              </div>
+
+                              <div class="row">
+                                <div class="col-sm-12"> 
+                                    <div class="card-footer" style="text-align: right;">
+
+                                        <button [disabled]="!rapportForm.valid" *ngIf="showButton" (click) ="afficher(rapportForm.value)" type="submit" class="btn btn-primary" ><i class="fas fa-eye"></i> Imprimer </button>
+
+                                        <button [disabled]="!rapportForm.valid" *ngIf="!showButton && !chiffresAffaires" (click) ="afficherFacture(rapportForm.value)" type="submit" class="btn btn-primary" ><i class="fas fa-eye"></i> Afficher </button>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                      </div>
+                   </div>
+                  
+                </div>
+              </div><!-- /.card-body -->
+            </div>
+            <!-- /.card -->
+
+          </section>
+
+        </div>
+        <!-- /.row (main row) -->
+      </div><!-- /.container-fluid -->
+    </section>
+    <!-- /.content -->
+  </div>
+  <!-- /.content-wrapper -->
